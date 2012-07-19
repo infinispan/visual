@@ -1,0 +1,68 @@
+/* 
+    Document   : viz.css
+    Created on : Mar 29, 2011, 3:22:43 PM
+    Author     : Andrew Sacamano<andrew.sacamano@amentra.com>
+    Description:
+    A stylesheet for the Infinispan visualizer.
+*/
+
+
+body {
+    color: #fff;
+    background: #323232 url(grey_tile.png) repeat-x;
+}
+
+
+#stage {
+    width: 1024px;
+    height: 748px;
+    position: relative;
+    margin: 10px auto;
+    
+}
+
+.node {
+    width: 150px;
+    height: 150px;
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    text-align: center;
+}
+
+.nodetitle {
+    /* display: none; */
+    z-index: -1;
+}
+
+.nodecanvas {
+    width: 150px;
+    height: 150px;
+}
+
+#status {
+    width: 800px;
+    height: 40px;
+    background-color: #222;
+    margin: 10px auto;
+}
+
+#control {
+    width: 800px;
+    height: 40px;
+    background-color: #222;
+    margin: 10px auto;
+}
+#control a,
+#control a:hover,
+#control a:visited
+{
+    margin: 5px 20px;
+    font-size: 36px;
+    font-weight: bold;
+    text-decoration: none;
+    color:#FFF;
+}
+
+
