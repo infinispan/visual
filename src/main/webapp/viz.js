@@ -210,7 +210,8 @@ function animateNewNode(nodeInfo,runRadians) {
     node.jq.show();
     for (var i = 0; i < nodes.length; i++) {
         nodes[i].attach();
-        nodes[i].setPhase(phaseConstant * i, runRadians)
+        nodes[i].setPhase(phaseConstant * i, runRadians);
+        nodes[i].setCount(nodeInfo.count);
     }
 }
 
