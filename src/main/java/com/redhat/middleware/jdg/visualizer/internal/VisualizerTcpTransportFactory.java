@@ -26,6 +26,11 @@ package com.redhat.middleware.jdg.visualizer.internal;
 import java.net.SocketAddress;
 import java.util.Collection;
 
+/**
+ * 
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ *
+ */
 public class VisualizerTcpTransportFactory extends
 		org.infinispan.client.hotrod.impl.transport.tcp.TcpTransportFactory {
 	

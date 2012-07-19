@@ -41,9 +41,12 @@ import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManage
  * JMX port.  In case the user is running multiple Infinispan servers in the same machine,
  * use setJmxPort(ip, port) to register a JMX port w/ the poller. 
  * 
- * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6425769
+ * {@link http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6425769}
  * 
- * @author Ray Tsang <rtsang@redhat.com>
+ * However, there may be further issues when running inside JBoss AS 7. See
+ * {@link https://issues.jboss.org/browse/AS7-2138}
+ * 
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  *
  */
 public class IspnPollerManager extends JmxPollerManager {

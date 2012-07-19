@@ -33,7 +33,7 @@ import org.infinispan.client.hotrod.RemoteCacheManager;
  * Currently, there is no public method to invoke a "ping" operation via the RemoteCache
  * interface.  This code currently uses "stats" operation.
  * 
- * @author Ray Tsang <rtsang@redhat.com>
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  *
  */
 public class PingThread extends Thread {

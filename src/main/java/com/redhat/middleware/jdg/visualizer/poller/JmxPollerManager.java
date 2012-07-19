@@ -33,6 +33,11 @@ import javax.management.remote.JMXServiceURL;
 
 import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManager;
 
+/**
+ * 
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ *
+ */
 public abstract class JmxPollerManager extends RemoteCachePollerManager {
 	private int jmxPort;
 	private String jmxUsername;

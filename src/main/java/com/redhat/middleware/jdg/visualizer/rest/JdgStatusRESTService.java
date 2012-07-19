@@ -34,6 +34,11 @@ import javax.ws.rs.Produces;
 import com.redhat.middleware.jdg.visualizer.cdi.Visualizer;
 import com.redhat.middleware.jdg.visualizer.poller.PollerManager;
 
+/**
+ * 
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ *
+ */
 @Path("/nodes")
 @RequestScoped
 public class JdgStatusRESTService {

@@ -32,6 +32,11 @@ import javax.management.remote.JMXServiceURL;
 
 import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManager;
 
+/**
+ * 
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ *
+ */
 public class JdgJmxPollerManager extends JmxPollerManager {
 
 	public JdgJmxPollerManager(VisualizerRemoteCacheManager cacheManager) {

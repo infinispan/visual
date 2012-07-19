@@ -28,6 +28,11 @@ import java.util.Map;
 import javax.management.ObjectName;
 import javax.management.remote.JMXServiceURL;
 
+/**
+ * 
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ *
+ */
 public class IspnJmxCacheEntriesPoller extends JmxCacheEntriesPoller {
 
 

@@ -34,6 +34,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.redhat.middleware.jdg.visualizer.rest.NodeInfo;
 
+/**
+ * 
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ *
+ */
 public abstract class PollerManager {
 	private String cacheName;
 	private String cacheType;

@@ -31,7 +31,6 @@ import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 
 import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManager;
-import com.redhat.middleware.jdg.visualizer.poller.IspnPollerManager;
 import com.redhat.middleware.jdg.visualizer.poller.JdgJmxPollerManager;
 import com.redhat.middleware.jdg.visualizer.poller.JmxPollerManager;
 import com.redhat.middleware.jdg.visualizer.poller.PollerManager;
@@ -48,6 +47,8 @@ import com.redhat.middleware.jdg.visualizer.poller.PollerManager;
  * &#064;Inject
  * private EntityManager em;
  * </pre>
+ * 
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  */
 public class Resources {
    @Produces

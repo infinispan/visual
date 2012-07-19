@@ -27,6 +27,8 @@ import com.redhat.middleware.jdg.visualizer.rest.NodeInfo;
 
 /**
  * Used to poll remote cachre instances for their key count
+ * 
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  */
 class PollerThread extends Thread {
 	private static final long DEFAULT_REFRESH_RATE = 2000L;

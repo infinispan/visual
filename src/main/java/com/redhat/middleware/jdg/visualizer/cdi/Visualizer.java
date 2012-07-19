@@ -30,6 +30,12 @@ import java.lang.annotation.Target;
 
 import javax.inject.Qualifier;
 
+/**
+ * CDI marker for injection
+ * 
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ *
+ */
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})

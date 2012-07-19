@@ -1,3 +1,26 @@
+<!---
+JBoss, Home of Professional Open Source
+Copyright 2011 Red Hat Inc. and/or its affiliates and other
+contributors as indicated by the @author tags. All rights reserved.
+See the copyright.txt in the distribution for a full listing of
+individual contributors.
+
+This is free software; you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License as
+published by the Free Software Foundation; either version 2.1 of
+the License, or (at your option) any later version.
+
+This software is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this software; if not, write to the Free
+Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+02110-1301 USA, or see the FSF site: http://www.fsf.org.
+--->
+
 jdg-visualizer
 ========================
 
@@ -23,7 +46,7 @@ See here to make sure JBoss Repository is configured - http://www.jboss.org/jdf/
 In addition, please make sure JDG 6 repository is configured based on JDG 6 Maven Repository installation instructions.  If not using JDG 6, please change the `pom.xml` so that the Infinispan dependency is based on community project.
 
 Add Management User to JBoss Data Grid
----------------
+---------------------------------------
  + `cd $JDG_HOME/bin`
  + `./add-user.sh`
  + Select `<a>` to add a Management User
@@ -31,7 +54,7 @@ Add Management User to JBoss Data Grid
  + Follow instruction to add a user with your username/password of your choice.  _ALL_ nodes should have the exact same login credentials in order for this visualizer to run correctly.
 
 Running JBoss Data Grid
----------------
+------------------------
 For this visualizer to work in a clustered environment, each JDG node must use the standalone-ha.xml configuration (for clustering), and each JDG node must be running on a dedicated network interface (i.e., a specific IP).  This can be achieved mostly through the use of IP Aliasing (you may need to look up more documentation regarding IP Aliasing for your Operating System). Optionally, you can also run each JDG node in a virtual machine instance, each with a different IP address.
 
 An example to create local IP Aliases in Mac OS X:
@@ -48,7 +71,7 @@ If running JDG inside a VM, please make sure JDG is bound to the non-local netwo
 1. `./standalone.sh -c standalone-ha.xml -b 192.168.100.101 -bmanagement=192.168.100.101 -Djboss.node.name=jdg-1`
 
 Configure jdg-visualizer
----------------
+------------------------
 
 ### Configure JMX Credentials
 1. Open `src/main/java/com/redhat/middleware/jdg/visualizer/cdi/Resources.java`
@@ -68,7 +91,7 @@ Configure jdg-visualizer
 	infinispan.client.hotrod.server_list=127.0.0.2
 
 Start JBoss Enterprise Application Platform 6 or JBoss AS 7.1
--------------------------
+--------------------------------------------------------------
 
 1. Open a command line and navigate to the root of the JBoss server directory.
 2. The following shows the command line to start the server with the web profile:

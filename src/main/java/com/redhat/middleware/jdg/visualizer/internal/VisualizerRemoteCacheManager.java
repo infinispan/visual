@@ -27,6 +27,11 @@ import java.lang.reflect.Field;
 
 import org.infinispan.client.hotrod.RemoteCacheManager;
 
+/**
+ * 
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ *
+ */
 public class VisualizerRemoteCacheManager extends RemoteCacheManager {
 	private ServersRegistry registry;
 	private PingThread pingThread;

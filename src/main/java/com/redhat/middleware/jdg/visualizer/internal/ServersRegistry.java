@@ -36,7 +36,7 @@ import java.util.HashSet;
  * RemoteCacheManager does not do this out of the box, hence a custom implementation is used,
  * see VisualizerRemoteCacheManager. 
  * 
- * @author Ray Tsang <rtsang@redhat.com>
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  *
  */
 public class ServersRegistry {

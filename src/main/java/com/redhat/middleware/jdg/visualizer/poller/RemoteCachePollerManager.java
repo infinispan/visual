@@ -25,6 +25,11 @@ package com.redhat.middleware.jdg.visualizer.poller;
 
 import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManager;
 
+/**
+ * 
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ *
+ */
 public abstract class RemoteCachePollerManager extends PollerManager {
 	private VisualizerRemoteCacheManager cacheManager;
 	

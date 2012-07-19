@@ -25,7 +25,9 @@ package com.redhat.middleware.jdg.visualizer.rest;
 
 /**
  * This class holds info about a particular infinispan node
+ * 
  * @author Andrew Sacamano<andrew.sacamano@amentra.com>
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  */
 public class NodeInfo {
 

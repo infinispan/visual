@@ -32,6 +32,11 @@ import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 
+/**
+ * 
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ *
+ */
 public abstract class JmxCacheEntriesPoller implements CacheEntriesPoller {
 	private static final String ATTRIBUTE = "numberOfEntries";
 	

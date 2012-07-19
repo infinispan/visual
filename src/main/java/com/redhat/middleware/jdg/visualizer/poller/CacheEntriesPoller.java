@@ -23,6 +23,11 @@
 
 package com.redhat.middleware.jdg.visualizer.poller;
 
+/**
+ * 
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ *
+ */
 public interface CacheEntriesPoller {
 	public void init();
 	public int numberOfEntries();

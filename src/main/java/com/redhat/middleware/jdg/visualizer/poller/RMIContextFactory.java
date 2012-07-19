@@ -31,14 +31,17 @@ import javax.naming.spi.InitialContextFactory;
 
 import com.sun.jndi.url.rmi.rmiURLContext;
 
+/**
+ * There may be further issues when running inside JBoss AS 7. See
+ * {@link https://issues.jboss.org/browse/AS7-2138}
+ * 
+ * This hasn't been tested.
+ * 
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ *
+ */
 public class RMIContextFactory implements InitialContextFactory {
 
-	/**
-	 * I don't like this either, but it's a work around for running inside AS7
-	 * https://issues.jboss.org/browse/AS7-2138
-	 * 
-	 * I haven't gotten this to work yet.
-	 */
 	@Override
 	public Context getInitialContext(Hashtable<?, ?> environment)
 			throws NamingException {
