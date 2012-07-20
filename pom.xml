@@ -48,6 +48,12 @@
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
             maven repository. -->
         <!-- <jboss.bom.version>1.0.0.M12-redhat-1</jboss.bom.version>> -->
+        
+        <!-- This is the JDG version, please make sure JDG repository is setup (see README.md) -->
+        <infinispan.version>5.1.5.FINAL-redhat-1</infinispan.version>
+        <!-- For community version, remove -redhat-1
+        	<infinispan.version>5.1.5.FINAL</infinispan.version>
+        -->
     </properties>
 
 
@@ -117,8 +123,10 @@
         <dependency>
         	<groupId>org.infinispan</groupId>
         	<artifactId>infinispan-client-hotrod</artifactId>
-        	<version>5.1.5.FINAL-redhat-1</version>
+        	<version>${infinispan.version}</version>
         </dependency>
+        
+        <!-- These dependecies are needed to connect to JBoss JMX -->
         <dependency>
         	<groupId>org.jboss.remoting3</groupId>
         	<artifactId>remoting-jmx</artifactId>
