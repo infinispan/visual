@@ -146,7 +146,11 @@ public abstract class PollerManager<T> {
 		public void run() {
 			running = true;
 			while (running) {
-				updateClusterList();
+				try {
+					updateClusterList();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				try {
 					Thread.sleep(refreshRate);
 				} catch (InterruptedException e) {
