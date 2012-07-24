@@ -21,7 +21,7 @@
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
 
-package com.redhat.middleware.jdg.visualizer.poller;
+package com.redhat.middleware.jdg.visualizer.poller.ispn;
 
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
@@ -33,6 +33,11 @@ import javax.management.remote.JMXServiceURL;
 import javax.naming.InitialContext;
 
 import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManager;
+import com.redhat.middleware.jdg.visualizer.poller.CacheEntriesPollerThread;
+import com.redhat.middleware.jdg.visualizer.poller.RMIContextFactory;
+import com.redhat.middleware.jdg.visualizer.poller.jmx.JmxCacheEntriesPoller;
+import com.redhat.middleware.jdg.visualizer.poller.jmx.JmxCacheEntriesPollerManager;
+import com.redhat.middleware.jdg.visualizer.rest.NodeInfo;
 
 /**
  * Infinispan uses JVM's JMX remoting, binds to all available network interfaces (i.e.,
@@ -49,7 +54,7 @@ import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManage
  * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  *
  */
-public class IspnPollerManager extends JmxPollerManager {
+public class IspnPollerManager extends JmxCacheEntriesPollerManager {
 	private Map<String, Integer> jmxPorts = new HashMap<String, Integer>();
 
 	public IspnPollerManager(VisualizerRemoteCacheManager cacheManager) {
@@ -68,7 +73,7 @@ public class IspnPollerManager extends JmxPollerManager {
 	@Override
 	protected JmxCacheEntriesPoller createPoller(JMXServiceURL url, Map<String, Object> env) {
 		env.put(InitialContext.INITIAL_CONTEXT_FACTORY, RMIContextFactory.class.getName());
-		return new IspnJmxCacheEntriesPoller(url, env, getCacheName(), getCacheType());
+		return new IspnJmxCacheEntriesPoller(url, env, getCacheName());
 	}
 	
 	public int getJmxPort(String ip) {
@@ -81,6 +86,12 @@ public class IspnPollerManager extends JmxPollerManager {
 	
 	public void unsetJmxPort(String ip) {
 		jmxPorts.remove(ip);
+	}
+
+	@Override
+	protected CacheEntriesPollerThread createPollerThread(SocketAddress address,
+			NodeInfo nodeInfo) throws Exception {
+		return new CacheEntriesPollerThread(createPoller(address), nodeInfo);
 	}
 
 }

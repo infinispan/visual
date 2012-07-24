@@ -20,34 +20,20 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
-
-package com.redhat.middleware.jdg.visualizer.poller;
+package com.redhat.middleware.jdg.visualizer.poller.jmx;
 
 import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManager;
+import com.redhat.middleware.jdg.visualizer.rest.CacheNameInfo;
 
 /**
  * 
  * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  *
  */
-public abstract class RemoteCachePollerManager<T> extends PollerManager<T> {
-	private VisualizerRemoteCacheManager cacheManager;
-	
-	public RemoteCachePollerManager(VisualizerRemoteCacheManager cacheManager) {
-		this.cacheManager = cacheManager;
-	}
-	
-	@Override
-	public void updateClusterList() {
-		updateClusterList(cacheManager.getRegistry().getServers());
-	}
-	
-	public VisualizerRemoteCacheManager getCacheManager() {
-		return cacheManager;
-	}
+public abstract class JmxCacheNamesPollerManager extends JmxPollerManager<CacheNameInfo, String[], JmxPoller<String[]>> {
 
-	public void setCacheManager(VisualizerRemoteCacheManager cacheManager) {
-		this.cacheManager = cacheManager;
+	public JmxCacheNamesPollerManager(VisualizerRemoteCacheManager cacheManager) {
+		super(cacheManager);
 	}
 
 }

@@ -23,68 +23,15 @@
 package com.redhat.middleware.jdg.visualizer.poller;
 
 /**
- * This thread holds the run loop to call poller on a fixed interval set
- * by <code>refrehRate</code>.
+ * This is a sync poller interface where poll() will always
+ * return a sampled data when invoked.
  * 
  * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  *
  * @param <T>
  */
-public abstract class PollerThread<T> extends Thread {
-	private static final long DEFAULT_REFRESH_RATE = 2000L;
-
-	private volatile boolean running;
-
-	private final Poller<T> poller;
-	private long refreshRate = DEFAULT_REFRESH_RATE;
-
-	public PollerThread(Poller<T> poller) {
-		super();
-		setDaemon(true);
-		
-		this.poller = poller;
-		
-		poller.init();
-	}
-
-	public void abort() {
-		running = false;
-		poller.destroy();
-	}
-
-	public boolean isRunning() {
-		return running;
-	}
-	
-	abstract protected void doRun() throws Exception;
-
-	@Override
-	public void run() {
-		running = true;
-		while (running) {
-			try {
-				doRun();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			try {
-				Thread.sleep(refreshRate);
-			} catch (InterruptedException e) {
-			}
-		}
-	}
-
-	public long getRefreshRate() {
-		return refreshRate;
-	}
-
-	public void setRefreshRate(long refreshRate) {
-		this.refreshRate = refreshRate;
-	}
-
-	public Poller<T> getPoller() {
-		return poller;
-	}
-
+public interface Poller<T> {
+	public void init();
+	public T poll();
+	public void destroy();
 }

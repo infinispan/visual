@@ -20,8 +20,7 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
-
-package com.redhat.middleware.jdg.visualizer.poller;
+package com.redhat.middleware.jdg.visualizer.poller.jmx;
 
 import java.net.MalformedURLException;
 import java.net.SocketAddress;
@@ -32,13 +31,14 @@ import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXServiceURL;
 
 import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManager;
+import com.redhat.middleware.jdg.visualizer.poller.RemoteCachePollerManager;
 
 /**
  * 
  * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  *
  */
-public abstract class JmxPollerManager extends RemoteCachePollerManager {
+public abstract class JmxPollerManager<I, T, P extends JmxPoller<T>> extends RemoteCachePollerManager<I> {
 	private int jmxPort;
 	private String jmxUsername;
 	private String jmxPassword;
@@ -48,10 +48,9 @@ public abstract class JmxPollerManager extends RemoteCachePollerManager {
 	}
 	
 	abstract protected JMXServiceURL generateServiceURL(SocketAddress address) throws MalformedURLException;
-	abstract protected JmxCacheEntriesPoller createPoller(JMXServiceURL url, Map<String, Object> env);
+	abstract protected P createPoller(JMXServiceURL url, Map<String, Object> env);
 	
-	@Override
-	protected CacheEntriesPoller createPoller(SocketAddress address)
+	protected P createPoller(SocketAddress address)
 			throws Exception {
 		
 		JMXServiceURL serviceURL = generateServiceURL(address);

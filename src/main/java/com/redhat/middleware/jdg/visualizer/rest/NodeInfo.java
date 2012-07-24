@@ -30,19 +30,17 @@ package com.redhat.middleware.jdg.visualizer.rest;
  * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  */
 public class NodeInfo {
-
+	private String id = "";
+    private String name = "Unknown";
+    private int color = 0;
+    private int count = 0;
+    
     public NodeInfo(String id, String name, int color) {
         this.id = id;
         this.name = name;
         this.color = color;
         this.count = 0;
     }
-
-
-    public String id = "";
-    public String name = "Unknown";
-    public int color = 0;
-    public int count = 0;
 
     @Override
     public String toString() {
@@ -83,8 +81,5 @@ public class NodeInfo {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    
-    
+    } 
 }

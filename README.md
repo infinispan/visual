@@ -45,6 +45,8 @@ See here to make sure JBoss Repository is configured - http://www.jboss.org/jdf/
 
 In addition, please make sure JDG 6 repository is configured based on JDG 6 Maven Repository installation instructions.  If not using JDG 6, please change the `pom.xml` so that the Infinispan dependency is based on community project.
 
+NOTE: This code hasn't been tested w/ Infinispan community project.
+
 Add Management User to JBoss Data Grid
 ---------------------------------------
  + `cd $JDG_HOME/bin`
@@ -80,7 +82,6 @@ Configure jdg-visualizer
 	manager.setJmxUsername("admin");  
 	manager.setJmxPassword("qwerty");  
 	manager.setJmxPort(9999);  
-	manager.setCacheName("namedCache");  
 	
 3. Replace these with your own values.  _NOTE: JDG JMX port is 9999 by default if you haven't changed it.  Replace "namedCache" with a cache that you are interested in monitoring.  JDG comes pre-configured with "namedCache", use it if you haven't changed it. _
 

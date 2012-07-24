@@ -20,25 +20,22 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
-
-package com.redhat.middleware.jdg.visualizer.cdi;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-import javax.inject.Qualifier;
+package com.redhat.middleware.jdg.visualizer.rest;
 
 /**
- * CDI marker for injection
  * 
  * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  *
  */
-@Qualifier
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
-public @interface Visualizer {
+public class CacheNameInfo {
+	private String[] names;
 
+	public String[] getNames() {
+		return names;
+	}
+
+	public void setNames(String[] names) {
+		this.names = names;
+	}
+	
 }

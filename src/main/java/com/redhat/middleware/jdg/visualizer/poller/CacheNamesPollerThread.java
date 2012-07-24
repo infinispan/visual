@@ -20,34 +20,27 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+package com.redhat.middleware.jdg.visualizer.poller;
 
-package com.redhat.middleware.jdg.visualizer.rest;
-
-import java.util.Collection;
-
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-
-import com.redhat.middleware.jdg.visualizer.cdi.Visualizer;
-import com.redhat.middleware.jdg.visualizer.poller.PollerManager;
+import com.redhat.middleware.jdg.visualizer.poller.jmx.JmxPoller;
+import com.redhat.middleware.jdg.visualizer.rest.CacheNameInfo;
 
 /**
  * 
  * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  *
  */
-@Path("/nodes")
-@RequestScoped
-public class JdgStatusRESTService {
-	@Inject @Visualizer
-	private PollerManager pollerManager;
-	
-	@GET
-	@Produces("application/json")
-	public Collection<NodeInfo> getAllNodeInfo() throws Exception {
-		return pollerManager.nodeInfoAsCollection();
+public class CacheNamesPollerThread extends PollerThread<String[]> {
+	private final CacheNameInfo nameInfo;
+
+	public CacheNamesPollerThread(JmxPoller<String[]> jmxPoller, CacheNameInfo nameInfo) {
+		super(jmxPoller);
+		this.nameInfo = nameInfo;
 	}
+
+	@Override
+	protected void doRun() throws Exception {
+		nameInfo.setNames(getPoller().poll());
+	}
+
 }

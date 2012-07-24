@@ -21,27 +21,31 @@
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
 
-package com.redhat.middleware.jdg.visualizer.poller;
+package com.redhat.middleware.jdg.visualizer.poller.ispn;
 
 import java.util.Map;
 
 import javax.management.ObjectName;
 import javax.management.remote.JMXServiceURL;
 
+import com.redhat.middleware.jdg.visualizer.poller.jmx.JmxCacheEntriesPoller;
+
 /**
  * 
  * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  *
  */
-public class JdgJmxCacheEntriesPoller extends JmxCacheEntriesPoller {
-	public JdgJmxCacheEntriesPoller(JMXServiceURL jmxUrl,
-			Map<String, Object> jmxEnv, String cacheName, String cacheType) {
-		super(jmxUrl, jmxEnv, cacheName, cacheType);
+public class IspnJmxCacheEntriesPoller extends JmxCacheEntriesPoller {
+
+
+	public IspnJmxCacheEntriesPoller(JMXServiceURL jmxUrl,
+			Map<String, Object> jmxEnv, String cacheName) {
+		super(jmxUrl, jmxEnv, cacheName);
 	}
 
 	@Override
 	protected ObjectName generateObjectName() throws Exception {
-		return new ObjectName("jboss.infinispan:type=Cache,name=\"" + getCacheName() + "(" + getCacheType() + ")\",manager=\"clustered\",component=Statistics");
+		return new ObjectName("org.infinispan:type=Cache,name=\"" + getCacheName() + "\",manager=\"DefaultCacheManager\",component=Statistics");
 	}
 
 }

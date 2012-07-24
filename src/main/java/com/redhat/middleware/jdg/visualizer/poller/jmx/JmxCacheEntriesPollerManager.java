@@ -20,71 +20,38 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
-package com.redhat.middleware.jdg.visualizer.poller;
+package com.redhat.middleware.jdg.visualizer.poller.jmx;
+
+import java.net.SocketAddress;
+
+import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManager;
+import com.redhat.middleware.jdg.visualizer.rest.NodeInfo;
 
 /**
- * This thread holds the run loop to call poller on a fixed interval set
- * by <code>refrehRate</code>.
  * 
  * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  *
- * @param <T>
  */
-public abstract class PollerThread<T> extends Thread {
-	private static final long DEFAULT_REFRESH_RATE = 2000L;
-
-	private volatile boolean running;
-
-	private final Poller<T> poller;
-	private long refreshRate = DEFAULT_REFRESH_RATE;
-
-	public PollerThread(Poller<T> poller) {
-		super();
-		setDaemon(true);
-		
-		this.poller = poller;
-		
-		poller.init();
-	}
-
-	public void abort() {
-		running = false;
-		poller.destroy();
-	}
-
-	public boolean isRunning() {
-		return running;
+public abstract class JmxCacheEntriesPollerManager extends JmxPollerManager<NodeInfo, Integer, JmxCacheEntriesPoller> {
+	private volatile int colorIndex = 0;
+	
+	private String cacheName;
+	
+	public JmxCacheEntriesPollerManager(
+			VisualizerRemoteCacheManager cacheManager) {
+		super(cacheManager);
 	}
 	
-	abstract protected void doRun() throws Exception;
-
 	@Override
-	public void run() {
-		running = true;
-		while (running) {
-			try {
-				doRun();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			try {
-				Thread.sleep(refreshRate);
-			} catch (InterruptedException e) {
-			}
-		}
+	protected NodeInfo createNewInfo(String id, SocketAddress addr) {
+		return new NodeInfo(id, addr.toString(), colorIndex++);
+	}
+	
+	public String getCacheName() {
+		return cacheName;
 	}
 
-	public long getRefreshRate() {
-		return refreshRate;
+	public void setCacheName(String cacheName) {
+		this.cacheName = cacheName;
 	}
-
-	public void setRefreshRate(long refreshRate) {
-		this.refreshRate = refreshRate;
-	}
-
-	public Poller<T> getPoller() {
-		return poller;
-	}
-
 }

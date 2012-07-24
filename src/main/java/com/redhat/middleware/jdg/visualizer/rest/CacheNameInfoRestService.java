@@ -21,29 +21,43 @@
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
 
-package com.redhat.middleware.jdg.visualizer.poller;
+package com.redhat.middleware.jdg.visualizer.rest;
 
-import java.util.Map;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.management.ObjectName;
-import javax.management.remote.JMXServiceURL;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+
+import com.redhat.middleware.jdg.visualizer.poller.PollerManager;
 
 /**
  * 
  * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  *
  */
-public class IspnJmxCacheEntriesPoller extends JmxCacheEntriesPoller {
-
-
-	public IspnJmxCacheEntriesPoller(JMXServiceURL jmxUrl,
-			Map<String, Object> jmxEnv, String cacheName, String cacheType) {
-		super(jmxUrl, jmxEnv, cacheName, cacheType);
+@Path("/names")
+@ApplicationScoped
+public class CacheNameInfoRestService {
+	@Inject
+	private PollerManager<CacheNameInfo> manager;
+	
+	@GET
+	@Produces("application/json")
+	public Set<String> getAllNodeInfo() throws Exception {
+		Set<String> names = new HashSet<String>();
+		Collection<CacheNameInfo> infos = manager.getAllInfos();
+		for (CacheNameInfo info : infos) {
+			if (info.getNames() != null) {
+				names.addAll(Arrays.asList(info.getNames()));
+			}
+		}
+		
+		return names;
 	}
-
-	@Override
-	protected ObjectName generateObjectName() throws Exception {
-		return new ObjectName("org.infinispan:type=Cache,name=\"" + getCacheName() + "(" + getCacheType() + ")\",manager=\"DefaultCacheManager\",component=Statistics");
-	}
-
 }

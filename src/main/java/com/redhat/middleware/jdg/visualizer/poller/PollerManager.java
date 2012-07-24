@@ -32,36 +32,26 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.redhat.middleware.jdg.visualizer.rest.NodeInfo;
-
 /**
  * 
  * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  *
  */
-public abstract class PollerManager {
-	private String cacheName;
-	private String cacheType;
-	
+public abstract class PollerManager<T> {
 	public PollerManager() {
 	}
 
 	/**
 	 * Map with the data of the address and the key counts
 	 */
-	private Map<String, NodeInfo> nodeInfos = new ConcurrentHashMap<String, NodeInfo>();
+	private Map<String, T> infos = new ConcurrentHashMap<String, T>();
 
 	/**
 	 * Pollers
 	 */
 	private Map<SocketAddress, PollerThread> pollers = new HashMap<SocketAddress, PollerThread>();
-
-	/**
-	 * Keeps track of which color new nodes should be
-	 */
-	private volatile int colorIndex = 0;
 	
-	abstract protected CacheEntriesPoller createPoller(SocketAddress address) throws Exception;
+	abstract protected PollerThread createPollerThread(SocketAddress address, T info) throws Exception;
 	abstract protected void updateClusterList();
 
 	public void init() {
@@ -83,6 +73,8 @@ public abstract class PollerManager {
 
 		return id;
 	}
+	
+	abstract protected T createNewInfo(String id, SocketAddress addr);
 
 	protected void updateClusterList(Collection<SocketAddress> addrs) {
 		Set<SocketAddress> pollersToStop = new HashSet<SocketAddress>();
@@ -91,15 +83,14 @@ public abstract class PollerManager {
 		for (SocketAddress addr : addrs) {
 			pollersToStop.remove(addr);
 			String id = generateNodeId(addr);
-			if (!nodeInfos.containsKey(id)) {
-				NodeInfo nodeInfo = new NodeInfo(id, addr.toString(),
-						colorIndex++);
+			if (!infos.containsKey(id)) {
+				T info = createNewInfo(id, addr);
 
 				PollerThread newThread;
 				try {
-					newThread = new PollerThread(createPoller(addr), nodeInfo);
+					newThread = createPollerThread(addr, info);
 					newThread.start();
-					nodeInfos.put(id, nodeInfo);
+					infos.put(id, info);
 					pollers.put(addr, newThread);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -108,30 +99,17 @@ public abstract class PollerManager {
 		}
 		for (SocketAddress addr : pollersToStop) {
 			String id = generateNodeId(addr);
-			nodeInfos.remove(id);
+			infos.remove(id);
 			PollerThread p = pollers.remove(addr);
 			if (p != null) {
 				p.abort();
 			}
 		}
 	}
-
-	public String getCacheName() {
-		return cacheName;
-	}
-
-	public void setCacheName(String cacheName) {
-		this.cacheName = cacheName;
-	}
 	
-	public Collection<NodeInfo> nodeInfoAsCollection() {
+	public Collection<T> getAllInfos() {
 		updateClusterList();
-		return nodeInfos.values();
+		return infos.values();
 	}
-	public String getCacheType() {
-		return cacheType;
-	}
-	public void setCacheType(String cacheType) {
-		this.cacheType = cacheType;
-	}
+
 }
