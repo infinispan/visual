@@ -108,4 +108,8 @@ public class Resources {
 			@Disposes PollerManager<CacheNameInfo> pollerManager) {
 		pollerManager.destroy();
 	}
+	
+	public void destroyCacheManager(@Disposes VisualizerRemoteCacheManager cacheManager) {
+		cacheManager.stop();
+	}
 }

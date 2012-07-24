@@ -32,12 +32,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.infinispan.client.hotrod.RemoteCacheManager;
+
 /**
  * 
  * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  *
  */
 public abstract class PollerManager<T> {
+	private UpdateThread updateThread;
+	
 	public PollerManager() {
 	}
 
@@ -56,9 +60,16 @@ public abstract class PollerManager<T> {
 
 	public void init() {
 		updateClusterList();
+		
+		updateThread = new UpdateThread();
+		updateThread.start();
 	}
 
 	public void destroy() {
+		if (updateThread != null) {
+			updateThread.abort();
+			updateThread.interrupt();
+		}
 		for (PollerThread p : pollers.values()) {
 			p.abort();
 			p.interrupt();
@@ -99,8 +110,10 @@ public abstract class PollerManager<T> {
 		}
 		for (SocketAddress addr : pollersToStop) {
 			String id = generateNodeId(addr);
+			System.out.println("pollers to stop" + id);
 			infos.remove(id);
 			PollerThread p = pollers.remove(addr);
+			System.out.println("pollers stopping p" + p);
 			if (p != null) {
 				p.abort();
 			}
@@ -108,8 +121,46 @@ public abstract class PollerManager<T> {
 	}
 	
 	public Collection<T> getAllInfos() {
-		updateClusterList();
+		//updateClusterList();
 		return infos.values();
+	}
+	
+	protected class UpdateThread extends Thread {
+		private static final long DEFAULT_REFRESH_RATE = 1000L;
+
+		private volatile boolean running;
+		private long refreshRate = DEFAULT_REFRESH_RATE;
+		
+		public UpdateThread() {
+			setDaemon(true);
+		}
+		public void abort() {
+			running = false;
+		}
+
+		public boolean isRunning() {
+			return running;
+		}
+
+		@Override
+		public void run() {
+			running = true;
+			while (running) {
+				updateClusterList();
+				try {
+					Thread.sleep(refreshRate);
+				} catch (InterruptedException e) {
+				}
+			}
+		}
+
+		public long getRefreshRate() {
+			return refreshRate;
+		}
+
+		public void setRefreshRate(long refreshRate) {
+			this.refreshRate = refreshRate;
+		}
 	}
 
 }

@@ -55,17 +55,4 @@ public class JdgJmxCacheNamesPollerManager extends JmxCacheNamesPollerManager {
 			Map<String, Object> env) {
 		return new JdgJmxCacheNamesPoller(url, env);
 	}
-
-	@Override
-	protected CacheNamesPollerThread createPollerThread(SocketAddress address,
-			CacheNameInfo info) throws Exception {
-		return new CacheNamesPollerThread(createPoller(address), info);
-	}
-
-	@Override
-	protected CacheNameInfo createNewInfo(String id, SocketAddress addr) {
-		return new CacheNameInfo();
-	}
-
-
 }

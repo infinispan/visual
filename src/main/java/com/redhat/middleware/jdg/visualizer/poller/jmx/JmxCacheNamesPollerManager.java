@@ -22,7 +22,10 @@
 */
 package com.redhat.middleware.jdg.visualizer.poller.jmx;
 
+import java.net.SocketAddress;
+
 import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManager;
+import com.redhat.middleware.jdg.visualizer.poller.CacheNamesPollerThread;
 import com.redhat.middleware.jdg.visualizer.rest.CacheNameInfo;
 
 /**
@@ -34,6 +37,17 @@ public abstract class JmxCacheNamesPollerManager extends JmxPollerManager<CacheN
 
 	public JmxCacheNamesPollerManager(VisualizerRemoteCacheManager cacheManager) {
 		super(cacheManager);
+	}
+	
+	@Override
+	protected CacheNamesPollerThread createPollerThread(SocketAddress address,
+			CacheNameInfo info) throws Exception {
+		return new CacheNamesPollerThread(createPoller(address), info);
+	}
+
+	@Override
+	protected CacheNameInfo createNewInfo(String id, SocketAddress addr) {
+		return new CacheNameInfo();
 	}
 
 }

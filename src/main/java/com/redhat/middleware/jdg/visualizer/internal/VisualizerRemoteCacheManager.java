@@ -40,7 +40,6 @@ import com.redhat.middleware.jdg.visualizer.poller.jdg.JdgJmxCacheNamesPollerMan
 public class VisualizerRemoteCacheManager extends RemoteCacheManager {
 	private ServersRegistry registry;
 	private PingThread pingThread;
-	private JdgJmxCacheNamesPollerManager cacheNamesPollerManager;
 
 	public ServersRegistry getRegistry() {
 		return registry;
@@ -78,9 +77,8 @@ public class VisualizerRemoteCacheManager extends RemoteCacheManager {
 
 	@Override
 	public void stop() {
-		super.stop();
 		pingThread.abort();
-		cacheNamesPollerManager.destroy();
+		super.stop();
 	}
 
 }

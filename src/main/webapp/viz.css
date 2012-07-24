@@ -37,8 +37,8 @@ body {
 
 
 #stage {
-    width: 1024px;
-    height: 748px;
+    width: 100%;
+    height: 100%;
     position: relative;
     margin: 10px auto;
     
