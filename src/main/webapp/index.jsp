@@ -39,6 +39,14 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	var infoUpdateTimeout = 500;
 
 	function startMainLoop() {
+		$("#clear").click(function() {
+			var cacheName = jQuery("#cacheName").val();
+			if (cacheName) {
+				jQuery.getJSON('rest/nodes/' + cacheName, {clear: true}, function(data) {
+					
+				});
+			}
+		});
 		setTimeout('updateAddrs()', 50);
 		updateNames();
 	}
@@ -102,6 +110,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 <body>
 	<div>
 		<select id="cacheName" name="cacheName"></select>
+		<button id="clear">Clear Cache</button>
 	</div>
 	<div id="stage"></div>
 

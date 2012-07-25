@@ -77,7 +77,10 @@ public class VisualizerRemoteCacheManager extends RemoteCacheManager {
 
 	@Override
 	public void stop() {
-		pingThread.abort();
+		if (pingThread != null) {
+			pingThread.abort();
+			pingThread.interrupt();
+		}
 		super.stop();
 	}
 

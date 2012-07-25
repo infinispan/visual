@@ -31,6 +31,7 @@ import javax.enterprise.inject.Default;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
+import javax.inject.Inject;
 
 import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManager;
 import com.redhat.middleware.jdg.visualizer.poller.PollerManager;
@@ -79,7 +80,7 @@ public class Resources {
 
 	@Produces
 	@Default
-	public JmxCacheEntriesPollerManager cacheEntriesPollerManager() {
+	public JmxCacheEntriesPollerManager cacheEntriesPollerManager(VisualizerRemoteCacheManager cacheManager) {
 		JmxCacheEntriesPollerManager manager = new JdgJmxCacheEntriesPollerManager(
 				cacheManager());
 		manager.setJmxUsername(jmxUsername);
@@ -92,9 +93,9 @@ public class Resources {
 	@Produces
 	@Default
 	@ApplicationScoped
-	public PollerManager<CacheNameInfo> cacheNamesPoller() {
+	public PollerManager<CacheNameInfo> cacheNamesPoller(VisualizerRemoteCacheManager cacheManager) {
 		JmxCacheNamesPollerManager manager = new JdgJmxCacheNamesPollerManager(
-				cacheManager());
+				cacheManager);
 		manager.setJmxUsername(jmxUsername);
 		manager.setJmxPassword(jmxPassword);
 		manager.setJmxPort(jmxPort);

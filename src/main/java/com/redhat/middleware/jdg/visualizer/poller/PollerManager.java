@@ -31,8 +31,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.infinispan.client.hotrod.RemoteCacheManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * 
@@ -126,12 +126,14 @@ public abstract class PollerManager<T> {
 	}
 	
 	protected class UpdateThread extends Thread {
+		private Logger logger;
 		private static final long DEFAULT_REFRESH_RATE = 1000L;
 
 		private volatile boolean running;
 		private long refreshRate = DEFAULT_REFRESH_RATE;
 		
 		public UpdateThread() {
+			Logger.getLogger(this.getClass().getName());
 			setDaemon(true);
 		}
 		public void abort() {
@@ -149,7 +151,7 @@ public abstract class PollerManager<T> {
 				try {
 					updateClusterList();
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.log(Level.SEVERE, "error when updating cluster list", e);
 				}
 				try {
 					Thread.sleep(refreshRate);

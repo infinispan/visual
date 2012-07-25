@@ -31,10 +31,14 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+
+import org.infinispan.api.BasicCache;
 
 import com.redhat.middleware.jdg.visualizer.cdi.Resources;
 import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManager;
@@ -60,15 +64,27 @@ public class NodeInfoRestService {
 	@GET
 	@Path("/{cacheName}")
 	@Produces("application/json")
-	public Collection<NodeInfo> getAllNodeInfo(@PathParam(value="cacheName") String cacheName) throws Exception {
+	public Collection<NodeInfo> getAllNodeInfo(@PathParam(value="cacheName") String cacheName, @DefaultValue("false") @QueryParam("clear") Boolean clear) throws Exception {
 		if (cacheName == null || "".equals(cacheName)) {
 			cacheName = "default(dist_sync)";
 		}
+		
 		if (!pollerManagers.containsKey(cacheName)) {
-			JmxCacheEntriesPollerManager manager = resources.cacheEntriesPollerManager();
+			JmxCacheEntriesPollerManager manager = resources.cacheEntriesPollerManager(cacheManager);
 			manager.setCacheName(cacheName);
 			manager.init();
 			pollerManagers.put(cacheName, manager);
+		}
+		
+		if (clear) {
+			String[] parts = cacheName.split("\\(");
+			if (parts.length > 0) {
+				String name = parts[0];
+				BasicCache cache = cacheManager.getCache(name);
+				if (cache != null) {
+					cache.clearAsync();
+				}
+			}
 		}
 		
 		PollerManager<NodeInfo> manager = pollerManagers.get(cacheName);

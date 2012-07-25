@@ -23,7 +23,11 @@
 
 package com.redhat.middleware.jdg.visualizer.internal;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.infinispan.client.hotrod.RemoteCacheManager;
+import org.infinispan.client.hotrod.exceptions.RemoteCacheManagerNotStartedException;
 
 /**
  * This class attempts to "ping" JDG server in order to retrieve topology information,
@@ -37,6 +41,7 @@ import org.infinispan.client.hotrod.RemoteCacheManager;
  *
  */
 public class PingThread extends Thread {
+	private Logger logger = Logger.getLogger(PingThread.class.getName());
 	private static final long DEFAULT_REFRESH_RATE = 2000L;
 
 	private volatile boolean running;
@@ -62,7 +67,17 @@ public class PingThread extends Thread {
 	public void run() {
 		running = true;
 		while (running) {
-			cacheManager.getCache().stats();
+			try {
+				cacheManager.getCache().stats();
+			} catch (IllegalStateException e) {
+				logger.log(Level.SEVERE, "illegal state exception, aborting", e);
+				abort();
+			} catch (RemoteCacheManagerNotStartedException e) {
+				logger.log(Level.SEVERE, "not started exception, aborting", e);
+				abort();
+			} catch (Exception e) {
+				logger.log(Level.SEVERE, "error when retrieving stats", e);
+			}
 			try {
 				Thread.sleep(refreshRate);
 			} catch (InterruptedException e) {
