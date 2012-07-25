@@ -108,7 +108,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 </script>
 </head>
 <body>
-	<div>
+	<div id="controls">
 		<select id="cacheName" name="cacheName"></select>
 		<button id="clear">Clear Cache</button>
 	</div>
