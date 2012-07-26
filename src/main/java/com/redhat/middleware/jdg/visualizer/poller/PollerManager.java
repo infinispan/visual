@@ -110,10 +110,8 @@ public abstract class PollerManager<T> {
 		}
 		for (SocketAddress addr : pollersToStop) {
 			String id = generateNodeId(addr);
-			System.out.println("pollers to stop" + id);
 			infos.remove(id);
 			PollerThread p = pollers.remove(addr);
-			System.out.println("pollers stopping p" + p);
 			if (p != null) {
 				p.abort();
 			}
