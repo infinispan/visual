@@ -47,7 +47,6 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 				});
 			}
 		});
-		setTimeout('updateAddrs()', 50);
 		updateNames();
 	}
 
@@ -66,6 +65,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 				$option.text(name);
 				$select.append($option);
 			}
+
+			setTimeout('updateAddrs()', 50);
 		});
 	}
 
