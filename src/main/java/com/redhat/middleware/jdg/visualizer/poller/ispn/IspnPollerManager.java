@@ -67,7 +67,9 @@ public class IspnPollerManager extends JmxCacheEntriesPollerManager {
 		
 		InetSocketAddress isa = (InetSocketAddress) address;
 		String host = isa.getAddress().getHostAddress();
-		return new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + host + ":" + getJmxPort(host) + "/jmxrmi");
+		String serviceUrl = "service:jmx:rmi:///jndi/rmi://" + host + ":" + getJmxPort(host, isa) + "/jmxrmi";
+		System.out.println("IspnPollerManager serviceUrl: " + serviceUrl);
+		return new JMXServiceURL(serviceUrl);
 	}
 
 	@Override
@@ -76,8 +78,8 @@ public class IspnPollerManager extends JmxCacheEntriesPollerManager {
 		return new IspnJmxCacheEntriesPoller(url, env, getCacheName());
 	}
 	
-	public int getJmxPort(String ip) {
-		return jmxPorts.containsKey(ip) ? jmxPorts.get(ip) : getJmxPort();
+	public int getJmxPort(String ip, InetSocketAddress isa) {
+		return jmxPorts.containsKey(ip) ? jmxPorts.get(ip) : (isa.getPort() + getJmxHotrodPortOffset());
 	}
 	
 	public void setJmxPort(String ip, Integer port) {

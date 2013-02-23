@@ -58,14 +58,13 @@ import com.redhat.middleware.jdg.visualizer.rest.NodeInfo;
  * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  */
 public class Resources {
-	private String jmxUsername = "admin";
-	private String jmxPassword = "qwerty";
-	private int jmxPort = 9999;
+	private String jmxUsername = System.getProperty("jdg.visualizer.jmxUser", "admin");
+	private String jmxPassword = System.getProperty("jdg.visualizer.jmxPass", "jboss");
+	private int jmxHotrodPortOffset = Integer.parseInt(System.getProperty("jdg.visualizer.jmxPortOffset", "1223"));
 	
 	@Produces
 	public Logger produceLog(InjectionPoint injectionPoint) {
-		return Logger.getLogger(injectionPoint.getMember().getDeclaringClass()
-				.getName());
+		return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
 	}
 
 	@Produces
@@ -81,11 +80,10 @@ public class Resources {
 	@Produces
 	@Default
 	public JmxCacheEntriesPollerManager cacheEntriesPollerManager(VisualizerRemoteCacheManager cacheManager) {
-		JmxCacheEntriesPollerManager manager = new JdgJmxCacheEntriesPollerManager(
-				cacheManager());
+		JmxCacheEntriesPollerManager manager = new JdgJmxCacheEntriesPollerManager(cacheManager());
 		manager.setJmxUsername(jmxUsername);
 		manager.setJmxPassword(jmxPassword);
-		manager.setJmxPort(jmxPort);
+		manager.setJmxHotrodPortOffset(jmxHotrodPortOffset);
 
 		return manager;
 	}
@@ -94,19 +92,17 @@ public class Resources {
 	@Default
 	@ApplicationScoped
 	public PollerManager<CacheNameInfo> cacheNamesPoller(VisualizerRemoteCacheManager cacheManager) {
-		JmxCacheNamesPollerManager manager = new JdgJmxCacheNamesPollerManager(
-				cacheManager);
+		JmxCacheNamesPollerManager manager = new JdgJmxCacheNamesPollerManager(cacheManager);
 		manager.setJmxUsername(jmxUsername);
 		manager.setJmxPassword(jmxPassword);
-		manager.setJmxPort(jmxPort);
+		manager.setJmxHotrodPortOffset(jmxHotrodPortOffset);
 
 		manager.init();
 
 		return manager;
 	}
 
-	public void destroyPollerManager(
-			@Disposes PollerManager<CacheNameInfo> pollerManager) {
+	public void destroyPollerManager(@Disposes PollerManager<CacheNameInfo> pollerManager) {
 		pollerManager.destroy();
 	}
 	
