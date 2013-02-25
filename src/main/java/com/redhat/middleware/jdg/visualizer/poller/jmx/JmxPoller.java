@@ -88,6 +88,7 @@ public abstract class JmxPoller<T> implements Poller<T> {
 	}
 	
 	protected void connect() throws Exception {
+		System.out.println("Connecting to jmxUrl:'" + jmxUrl + "', jmxEnv:'" + jmxEnv + "'");
 		connector = JMXConnectorFactory.connect(jmxUrl, jmxEnv);
 		connection = connector.getMBeanServerConnection();
 		connected = true;

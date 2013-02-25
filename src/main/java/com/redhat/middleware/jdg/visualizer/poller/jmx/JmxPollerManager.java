@@ -39,7 +39,7 @@ import com.redhat.middleware.jdg.visualizer.poller.RemoteCachePollerManager;
  *
  */
 public abstract class JmxPollerManager<I, T, P extends JmxPoller<T>> extends RemoteCachePollerManager<I> {
-	private int jmxPort;
+	private int jmxHotrodPortOffset;
 	private String jmxUsername;
 	private String jmxPassword;
 	
@@ -63,12 +63,12 @@ public abstract class JmxPollerManager<I, T, P extends JmxPoller<T>> extends Rem
 		return createPoller(serviceURL, env);
 	}
 
-	public int getJmxPort() {
-		return jmxPort;
+	public int getJmxHotrodPortOffset() {
+		return jmxHotrodPortOffset;
 	}
 
-	public void setJmxPort(int jmxPort) {
-		this.jmxPort = jmxPort;
+	public void setJmxHotrodPortOffset(int jmxPort) {
+		this.jmxHotrodPortOffset = jmxPort;
 	}
 	
 	public String getJmxUsername() {

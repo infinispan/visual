@@ -24,10 +24,12 @@
 package com.redhat.middleware.jdg.visualizer.internal;
 
 import java.lang.reflect.Field;
+import java.util.Properties;
 
 import javax.enterprise.inject.Alternative;
 
 import org.infinispan.client.hotrod.RemoteCacheManager;
+import org.infinispan.client.hotrod.impl.ConfigurationProperties;
 
 import com.redhat.middleware.jdg.visualizer.poller.jdg.JdgJmxCacheNamesPollerManager;
 
@@ -38,9 +40,16 @@ import com.redhat.middleware.jdg.visualizer.poller.jdg.JdgJmxCacheNamesPollerMan
  */
 @Alternative
 public class VisualizerRemoteCacheManager extends RemoteCacheManager {
+	public static final String TRANSPORT_FACTORY = "com.redhat.middleware.jdg.visualizer.internal.VisualizerTcpTransportFactory";
+	
+	
 	private ServersRegistry registry;
 	private PingThread pingThread;
 
+	public VisualizerRemoteCacheManager() {
+		super(getCacheProperties());
+	}
+	
 	public ServersRegistry getRegistry() {
 		return registry;
 	}
@@ -48,9 +57,9 @@ public class VisualizerRemoteCacheManager extends RemoteCacheManager {
 	@Override
 	public void start() {
 		super.start();
-
+		
 		this.registry = new ServersRegistry();
-
+		
 		VisualizerTcpTransportFactory factory = getTransportFactoryViaReflection();
 		if (factory != null) {
 			factory.setRegistry(registry);
@@ -63,13 +72,10 @@ public class VisualizerRemoteCacheManager extends RemoteCacheManager {
 
 	protected VisualizerTcpTransportFactory getTransportFactoryViaReflection() {
 		try {
-			Field transportFactoryField = RemoteCacheManager.class
-					.getDeclaredField("transportFactory");
+			Field transportFactoryField = RemoteCacheManager.class.getDeclaredField("transportFactory");
 			transportFactoryField.setAccessible(true);
-			return (VisualizerTcpTransportFactory) transportFactoryField
-					.get(this);
+			return (VisualizerTcpTransportFactory) transportFactoryField.get(this);
 		} catch (Exception e) {
-			// oops something went wrong!
 			e.printStackTrace();
 			return null;
 		}
@@ -84,4 +90,11 @@ public class VisualizerRemoteCacheManager extends RemoteCacheManager {
 		super.stop();
 	}
 
+	
+	public static Properties getCacheProperties() {
+		Properties props = new Properties();
+		props.setProperty("infinispan.client.hotrod.server_list", System.getProperty("jdg.visualizer.serverList"));
+		props.setProperty("infinispan.client.hotrod.transport_factory", TRANSPORT_FACTORY);
+		return props;
+	}
 }
