@@ -132,12 +132,13 @@ Open a command line and navigate to the root of the JBoss Data Grid server direc
 
 Start each instance, ensuring the address and ports will not conflict with each other or the JBoss EAP instance.
 
-	bin/standalone.sh -c standalone-ha.xml -b localhost -bmanagement=localhost -Djboss.server.base.dir=standalone1 -Djboss.socket.binding.port-offset=1 -Djboss.node.name=jdg1
+	bin/standalone.sh -c clustered.xml -b localhost -bmanagement=localhost -Djboss.server.base.dir=standalone1 -Djboss.socket.binding.port-offset=1 -Djboss.node.name=jdg1
 
-	bin/standalone.sh -c standalone-ha.xml -b localhost -bmanagement=localhost -Djboss.server.base.dir=standalone2 -Djboss.socket.binding.port-offset=2 -Djboss.node.name=jdg2
+	bin/standalone.sh -c clustered.xml -b localhost -bmanagement=localhost -Djboss.server.base.dir=standalone2 -Djboss.socket.binding.port-offset=2 -Djboss.node.name=jdg2
 
-	bin/standalone.sh -c standalone-ha.xml -b localhost -bmanagement=localhost -Djboss.server.base.dir=standalone3 -Djboss.socket.binding.port-offset=3 -Djboss.node.name=jdg3
+	bin/standalone.sh -c clustered.xml -b localhost -bmanagement=localhost -Djboss.server.base.dir=standalone3 -Djboss.socket.binding.port-offset=3 -Djboss.node.name=jdg3
 
++ JDG 6.1 configuration file is `clustered.xml`, in JDG 6.0, please use `standalone-ha.xml` instead.
 + use `bin/standalone.sh` for Linux/Unix and `bin\standalone.bat` for Windows
 + **-c <filename>** specifies the configuration file to use; `standalone-ha.xml` must be used to form a cluster. 
 + **-b** and **-bmanagement** specify the IP Address to bind the data grid to. If running the the demo on an isolated host then specify `localhost`.  If running the demo with other hosts on a network the specify the IP Address of the network interface you would like to bind to. Both the NIC configuration and the network must support multicast for the data grid to be dynamically formed.
