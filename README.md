@@ -37,8 +37,8 @@ User configured (see below for instructions).
 This demo application uses a single instance of JBoss Enterprise Application server, and a cluster of JBoss Data Grid servers. The following steps document how to configure the servers whether you plan to build the demo from source or deploy a precompiled demo app.
 
 ### 1.1 System requirements
- * JBoss Data Grid 6.0
- * JBoss EAP 6.0
+ * JBoss Data Grid 6.1
+ * JBoss EAP 6.1
  * Maven 2
 
 ### 1.2 Add Management User to JBoss Data Grid
@@ -95,8 +95,8 @@ c. Running each JDG node in a virtual machine instance, each with a different IP
 #### 1.6a Using Port Offsets
 Further configuration is not necessary. Port offsets may be specified on the command line startup, e.g.:
 
-	./standalone.sh -c standalone-ha.xml -b 127.0.0.1 -bmanagement=127.0.0.1 -Djboss.node.name=jdg-1 -Djboss.socket.binding.port-offset=1 ...
-	./standalone.sh -c standalone-ha.xml -b 127.0.0.1 -bmanagement=127.0.0.1 -Djboss.node.name=jdg-2 -Djboss.socket.binding.port-offset=2 ...
+	./clustered.sh -b 127.0.0.1 -bmanagement=127.0.0.1 -Djboss.node.name=jdg-1 -Djboss.socket.binding.port-offset=1 ...
+	./clustered.sh -b 127.0.0.1 -bmanagement=127.0.0.1 -Djboss.node.name=jdg-2 -Djboss.socket.binding.port-offset=2 ...
 
 #### 1.6b Using IP Aliases
 An example to create local IP Aliases in Mac OS X:
@@ -106,13 +106,13 @@ An example to create local IP Aliases in Mac OS X:
  
 Each JDG instance must bind to a specific IP address, e.g.:
 
-	./standalone.sh -c standalone-ha.xml -b 127.0.0.2 -bmanagement=127.0.0.2 -Djboss.node.name=jdg-2 ...
-	./standalone.sh -c standalone-ha.xml -b 127.0.0.3 -bmanagement=127.0.0.3 -Djboss.node.name=jdg-3 ...
+	./clustered.sh -b 127.0.0.2 -bmanagement=127.0.0.2 -Djboss.node.name=jdg-2 ...
+	./clustered.sh -b 127.0.0.3 -bmanagement=127.0.0.3 -Djboss.node.name=jdg-3 ...
  
 #### 1.6c Using Virtual Machines 
 If running JDG inside a VM, please make sure JDG is bound to the non-local network interface. (JDG binds to localhost unless otherwise specified), e.g.:
 	
-	./standalone.sh -c standalone-ha.xml -b 192.168.100.101 -bmanagement=192.168.100.101 -Djboss.node.name=jdg-1 ...
+	./clustered.sh -b 192.168.100.101 -bmanagement=192.168.100.101 -Djboss.node.name=jdg-1 ...
 
 #### 1.7 Deploy the Visualizer
 + Copy the Visualizer to the EAP deployments directory: 
@@ -132,13 +132,12 @@ Open a command line and navigate to the root of the JBoss Data Grid server direc
 
 Start each instance, ensuring the address and ports will not conflict with each other or the JBoss EAP instance.
 
-	bin/standalone.sh -c clustered.xml -b localhost -bmanagement=localhost -Djboss.server.base.dir=standalone1 -Djboss.socket.binding.port-offset=1 -Djboss.node.name=jdg1
+	bin/clustered.sh -b localhost -bmanagement=localhost -Djboss.server.base.dir=standalone1 -Djboss.socket.binding.port-offset=1 -Djboss.node.name=jdg1
 
-	bin/standalone.sh -c clustered.xml -b localhost -bmanagement=localhost -Djboss.server.base.dir=standalone2 -Djboss.socket.binding.port-offset=2 -Djboss.node.name=jdg2
+	bin/clustered.sh -b localhost -bmanagement=localhost -Djboss.server.base.dir=standalone2 -Djboss.socket.binding.port-offset=2 -Djboss.node.name=jdg2
 
-	bin/standalone.sh -c clustered.xml -b localhost -bmanagement=localhost -Djboss.server.base.dir=standalone3 -Djboss.socket.binding.port-offset=3 -Djboss.node.name=jdg3
+	bin/clustered.sh -b localhost -bmanagement=localhost -Djboss.server.base.dir=standalone3 -Djboss.socket.binding.port-offset=3 -Djboss.node.name=jdg3
 
-+ JDG 6.1 configuration file is `clustered.xml`, in JDG 6.0, please use `standalone-ha.xml` instead.
 + use `bin/standalone.sh` for Linux/Unix and `bin\standalone.bat` for Windows
 + **-c <filename>** specifies the configuration file to use; `standalone-ha.xml` must be used to form a cluster. 
 + **-b** and **-bmanagement** specify the IP Address to bind the data grid to. If running the the demo on an isolated host then specify `localhost`.  If running the demo with other hosts on a network the specify the IP Address of the network interface you would like to bind to. Both the NIC configuration and the network must support multicast for the data grid to be dynamically formed.
@@ -157,6 +156,7 @@ Start the application server and specify the visualizer's demo parameters.
 + **-b** and **-bmanagement** should be set to the external IP address of your host
 + **jdg.visualizer.jmxUser** and **jdg.visualizer.jmxPass** should be set to the credentials of the JBoss Data Grid servers you configured in step '1.2 Add Management User to JBoss Data Grid'  
 + **jdg.visualizer.serverList** must set to the `<IPAddress>:<HotRodPort>` combination of at least one of the JDG servers you started in step '2.1 Starting the Data Grid Instances'. To specify multiple addresses wrap with quotes and delimit with a semicolon, e.g.: `-Djdg.visualizer.serverList='localhost:11223;localhost:11224'`
++ **jdg.visualizer.refreshRate** This is refresh rate determines how often Visualizer should poll data from JDG servers.  If onset, this defaults to 2000 - which means 2000ms delay between data polling.
 
 ### 2.3 View the Demo Application
 The application will be running at the following URL: <http://localhost:8080/jdg-visualizer/>.

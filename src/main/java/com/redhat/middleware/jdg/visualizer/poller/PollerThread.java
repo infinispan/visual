@@ -31,12 +31,10 @@ package com.redhat.middleware.jdg.visualizer.poller;
  * @param <T>
  */
 public abstract class PollerThread<T> extends Thread {
-	private static final long DEFAULT_REFRESH_RATE = 2000L;
-
 	private volatile boolean running;
 
 	private final Poller<T> poller;
-	private long refreshRate = DEFAULT_REFRESH_RATE;
+	private long refreshRate = PollerManager.DEFAULT_REFRESH_RATE;
 
 	public PollerThread(Poller<T> poller) {
 		super();

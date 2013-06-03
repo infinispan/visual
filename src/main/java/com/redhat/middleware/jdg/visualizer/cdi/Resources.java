@@ -58,6 +58,7 @@ import com.redhat.middleware.jdg.visualizer.rest.NodeInfo;
  * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  */
 public class Resources {
+   private String refreshRate = System.getProperty("jdg.visualizer.refreshRate", "2000");
 	private String jmxUsername = System.getProperty("jdg.visualizer.jmxUser", "admin");
 	private String jmxPassword = System.getProperty("jdg.visualizer.jmxPass", "jboss");
 	private int jmxHotrodPortOffset = Integer.parseInt(System.getProperty("jdg.visualizer.jmxPortOffset", "1223"));
@@ -84,6 +85,7 @@ public class Resources {
 		manager.setJmxUsername(jmxUsername);
 		manager.setJmxPassword(jmxPassword);
 		manager.setJmxHotrodPortOffset(jmxHotrodPortOffset);
+		manager.setRefreshRate(Long.valueOf(refreshRate));
 
 		return manager;
 	}
@@ -96,6 +98,7 @@ public class Resources {
 		manager.setJmxUsername(jmxUsername);
 		manager.setJmxPassword(jmxPassword);
 		manager.setJmxHotrodPortOffset(jmxHotrodPortOffset);
+		manager.setRefreshRate(Long.valueOf(refreshRate));
 
 		manager.init();
 

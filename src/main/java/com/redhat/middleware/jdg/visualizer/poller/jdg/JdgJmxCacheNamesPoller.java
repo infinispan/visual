@@ -22,6 +22,8 @@
 */
 package com.redhat.middleware.jdg.visualizer.poller.jdg;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,13 +50,21 @@ public class JdgJmxCacheNamesPoller extends JmxPoller<String[]> {
 		Set<ObjectName> objectNames = getConnection().queryNames(new ObjectName("jboss.infinispan:type=Cache,name=*,manager=\"clustered\",component=Cache"), null);
 		if (objectNames == null) return null;
 		
-		String [] names = new String[objectNames.size()];
+		List<String> names = new LinkedList<String>();
+		
 		int i = 0;
 		for (ObjectName objectName : objectNames) {
-			names[i] = (String) getConnection().getAttribute(objectName, ATTRIBUTE);
-			i++;
+		   String name = (String) getConnection().getAttribute(objectName, ATTRIBUTE);
+		   if (name == null)
+		      continue;
+		   
+		   // ignore internal caches, such ___hotRodTopologyCache
+		   if (name.startsWith("___"))
+		      continue;
+		   
+			names.add(name);
 		}
-		return names;
+		return names.toArray(new String[]{});
 	}
 
 }

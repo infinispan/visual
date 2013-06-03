@@ -40,6 +40,9 @@ import java.util.logging.Logger;
  *
  */
 public abstract class PollerManager<T> {
+   public static final long DEFAULT_REFRESH_RATE = 2000L;
+   private long refreshRate = DEFAULT_REFRESH_RATE;
+   
 	private UpdateThread updateThread;
 	
 	public PollerManager() {
@@ -97,9 +100,10 @@ public abstract class PollerManager<T> {
 			if (!infos.containsKey(id)) {
 				T info = createNewInfo(id, addr);
 
-				PollerThread newThread;
+				PollerThread<?> newThread;
 				try {
 					newThread = createPollerThread(addr, info);
+					newThread.setRefreshRate(refreshRate);
 					newThread.start();
 					infos.put(id, info);
 					pollers.put(addr, newThread);
@@ -111,7 +115,7 @@ public abstract class PollerManager<T> {
 		for (SocketAddress addr : pollersToStop) {
 			String id = generateNodeId(addr);
 			infos.remove(id);
-			PollerThread p = pollers.remove(addr);
+			PollerThread<?> p = pollers.remove(addr);
 			if (p != null) {
 				p.abort();
 			}
@@ -166,5 +170,12 @@ public abstract class PollerManager<T> {
 			this.refreshRate = refreshRate;
 		}
 	}
+
+   public long getRefreshRate() {
+      return refreshRate;
+   }
+   public void setRefreshRate(long refreshRate) {
+      this.refreshRate = refreshRate;
+   }
 
 }
