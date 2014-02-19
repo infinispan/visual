@@ -24,15 +24,16 @@
   @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.redhat.middleware.jdg</groupId>
-    <artifactId>jdg-visualizer</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
-    <name>Java EE 6 webapp project</name>
-    <description>A starter Java EE 6 webapp project for use on JBoss AS 7.1 / EAP 6, generated from the jboss-javaee6-webapp archetype</description>
+	<groupId>com.redhat.middleware.jdg</groupId>
+	<artifactId>jdg-visualizer</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>Java EE 6 webapp project</name>
+	<description>A starter Java EE 6 webapp project for use on JBoss AS 7.1 / EAP 6, generated from the jboss-javaee6-webapp archetype</description>
+
 
     <properties>
         <!-- Explicitly declaring the source encoding eliminates the following 
@@ -42,7 +43,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Define the version of JBoss' Java EE 6 APIs and Tools we want 
             to import. -->
-        <jboss.bom.version>1.0.0.Final</jboss.bom.version>
+        <jboss.bom.version>6.2.0.GA</jboss.bom.version>
         <!-- Alternatively, comment out the above line, and un-comment the 
             line below to use version 1.0.0.M12-redhat-1 which is a release certified 
             to work with JBoss EAP 6. It requires you have access to the JBoss EAP 6 
@@ -50,7 +51,7 @@
         <!-- <jboss.bom.version>1.0.0.M12-redhat-1</jboss.bom.version>> -->
         
         <!-- This is the JDG version, please make sure JDG repository is setup (see README.md) -->
-        <infinispan.version>5.1.5.FINAL-redhat-1</infinispan.version>
+        <infinispan.version>6.0.1.Final-redhat-2</infinispan.version>
         <!-- For community version, remove -redhat-1
         	<infinispan.version>5.1.5.FINAL</infinispan.version>
         -->
@@ -68,14 +69,14 @@
                 stack you can read this as the JBoss stack of the Java EE 6 APIs, with extras 
                 from the Hibernate family of projects) -->
             <dependency>
-                <groupId>org.jboss.bom</groupId>
+                <groupId>org.jboss.bom.eap</groupId>
                 <artifactId>jboss-javaee-6.0-with-tools</artifactId>
                 <version>${jboss.bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.jboss.bom</groupId>
+                <groupId>org.jboss.bom.eap</groupId>
                 <artifactId>jboss-javaee-6.0-with-hibernate</artifactId>
                 <version>${jboss.bom.version}</version>
                 <type>pom</type>
@@ -125,6 +126,11 @@
         	<artifactId>infinispan-client-hotrod</artifactId>
         	<version>${infinispan.version}</version>
         </dependency>
+        <dependency>
+        	<groupId>org.infinispan</groupId>
+        	<artifactId>infinispan-core</artifactId>
+        	<version>${infinispan.version}</version>
+        </dependency>        
         
         <!-- These dependecies are needed to connect to JBoss JMX -->
         <dependency>
@@ -201,5 +207,4 @@
                 </plugins>
             </build>
         </profile>
-    </profiles>
-</project>
+    </profiles></project>

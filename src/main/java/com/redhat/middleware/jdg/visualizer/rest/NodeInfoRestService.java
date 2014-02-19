@@ -80,7 +80,7 @@ public class NodeInfoRestService {
 			String[] parts = cacheName.split("\\(");
 			if (parts.length > 0) {
 				String name = parts[0];
-				BasicCache cache = cacheManager.getCache(name);
+				BasicCache cache = (BasicCache) cacheManager.getCache(name);
 				if (cache != null) {
 					cache.clearAsync();
 				}
