@@ -30,7 +30,6 @@ import java.util.Map;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -38,7 +37,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import org.infinispan.api.BasicCache;
+import org.infinispan.client.hotrod.RemoteCache;
 
 import com.redhat.middleware.jdg.visualizer.cdi.Resources;
 import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManager;
@@ -80,7 +79,7 @@ public class NodeInfoRestService {
 			String[] parts = cacheName.split("\\(");
 			if (parts.length > 0) {
 				String name = parts[0];
-				BasicCache cache = (BasicCache) cacheManager.getCache(name);
+				RemoteCache cache = (RemoteCache) cacheManager.getCache(name);
 				if (cache != null) {
 					cache.clearAsync();
 				}
