@@ -26,12 +26,10 @@ package com.redhat.middleware.jdg.visualizer.cdi;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
-import javax.inject.Inject;
 
 import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManager;
 import com.redhat.middleware.jdg.visualizer.poller.PollerManager;
@@ -40,7 +38,6 @@ import com.redhat.middleware.jdg.visualizer.poller.jdg.JdgJmxCacheEntriesPollerM
 import com.redhat.middleware.jdg.visualizer.poller.jmx.JmxCacheEntriesPollerManager;
 import com.redhat.middleware.jdg.visualizer.poller.jmx.JmxCacheNamesPollerManager;
 import com.redhat.middleware.jdg.visualizer.rest.CacheNameInfo;
-import com.redhat.middleware.jdg.visualizer.rest.NodeInfo;
 
 /**
  * This class uses CDI to alias Java EE resources, such as the persistence
@@ -62,6 +59,7 @@ public class Resources {
 	private String jmxUsername = System.getProperty("jdg.visualizer.jmxUser", "admin");
 	private String jmxPassword = System.getProperty("jdg.visualizer.jmxPass", "jboss");
 	private int jmxHotrodPortOffset = Integer.parseInt(System.getProperty("jdg.visualizer.jmxPortOffset", "1223"));
+	private String nodeColorAsString = System.getProperty("jdg.visualizer.nodeColor");
 	
 	@Produces
 	public Logger produceLog(InjectionPoint injectionPoint) {
@@ -86,7 +84,12 @@ public class Resources {
 		manager.setJmxPassword(jmxPassword);
 		manager.setJmxHotrodPortOffset(jmxHotrodPortOffset);
 		manager.setRefreshRate(Long.valueOf(refreshRate));
-
+		
+		if(nodeColorAsString != null) 
+			manager.setMultiColor(false, Integer.parseInt(nodeColorAsString));
+		else 
+			manager.setMultiColor(true, null);
+		
 		return manager;
 	}
 
