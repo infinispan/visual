@@ -37,9 +37,9 @@ User configured (see below for instructions).
 This demo application uses a single instance of JBoss Enterprise Application server, and a cluster of JBoss Data Grid servers. The following steps document how to configure the servers whether you plan to build the demo from source or deploy a precompiled demo app.
 
 ### 1.1 System requirements
- * JBoss Data Grid 6.1
- * JBoss EAP 6.1
- * Maven 2
+ * JBoss Data Grid 6.4.0
+ * JBoss EAP 6.3
+ * Maven 3
 
 ### 1.2 Add Management User to JBoss Data Grid
  + `cd $JDG_HOME/bin`
