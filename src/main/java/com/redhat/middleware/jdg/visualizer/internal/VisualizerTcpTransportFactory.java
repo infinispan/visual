@@ -45,8 +45,8 @@ public class VisualizerTcpTransportFactory extends
 	}
 
 	@Override
-	public void updateServers(Collection<SocketAddress> newServers) {
-        super.updateServers(newServers);
+	public void updateServers(Collection<SocketAddress> newServers, byte[] cacheName) {
+        super.updateServers(newServers,cacheName);
         updateServerRegistry();
 	}
 	

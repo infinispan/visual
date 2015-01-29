@@ -51,7 +51,7 @@
         <!-- <jboss.bom.version>1.0.0.M12-redhat-1</jboss.bom.version>> -->
         
         <!-- This is the JDG version, please make sure JDG repository is setup (see README.md) -->
-        <infinispan.version>6.0.1.Final-redhat-2</infinispan.version>
+        <infinispan.version>6.2.0.Final-redhat-4</infinispan.version>
         <!-- For community version, remove -redhat-1
         	<infinispan.version>5.1.5.FINAL</infinispan.version>
         -->
