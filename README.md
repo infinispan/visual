@@ -42,28 +42,28 @@ This demo application uses a single instance of JBoss Enterprise Application ser
  * Maven 3
 
 ### 1.2 Add Management User to JBoss Data Grid
- + `cd $JDG_HOME/bin`
- + `./add-user.sh`
- + Select `<a>` to add a Management User
- + Hit `<Enter>` for default realm (`ManagementRealm`)
- + Follow instructions to add a user with your username/password of your choice.  _ALL_ nodes should have the exact same login credentials in order for this visualizer to run correctly.
 
-### 1.3 Configure the Java Heap
+Use the example shown below to add an user
+    $JDG_HOME/bin$ ./add-user.sh -a -u admin -p adminPass9! -r ManagementRealm
+
+Follow instructions to add a user with your username/password of your choice.  _ALL_ nodes should have the exact same login credentials in order for this visualizer to run correctly.
+
+### 1.3 Configure the Java Heap for EAP and JDG servers
 Decreasing the default EAP and JDG heap size will allow you to run the necessary JBoss instances on your host without running out of memory. The following java heap settings will typically allow for 1 EAP instance with up to 4 JDG instances on a single host (results may vary). 
 
 Edit the EAP `$EAP_HOME/bin/standalone.conf` file and modify the Java heap size to the following:
 
 	-Xms256m -Xmx1024m -XX:MaxPermSize=128m
 
-Edit the `$JDG_HOME/bin/standalone.conf` file and modify the Java heap size to the following:
+Edit the `$JDG_HOME/bin/clustered.conf` file and modify the Java heap size to the following:
 
 	-Xms128m -Xmx384m -Xss2048k -XX:MaxPermSize=128m 
 
-### 1.4 Configure the Lab Cache
-This demo requires a cache to be configured and exposed through the HotRod interface. Open the clustered JDG configuration file, `$JDG_HOME/standalone/configuration/standalone-ha.xml`, and add a distributed cache to the infinispan configuration section called `labCache`.
+### 1.4 Configure the Lab Cache on JDG server
+This demo requires a cache to be configured and exposed through the HotRod interface. Open the clustered JDG configuration file, `$JDG_HOME/standalone/configuration/clustered.xml`, and add a distributed cache to the infinispan configuration section called `labCache`.
 
-	<subsystem xmlns="urn:jboss:domain:infinispan:1.3" default-cache-container="clustered">
-		<cache-container name="clustered" default-cache="default">
+	<subsystem xmlns="urn:infinispan:server:core:6.2" default-cache-container="clustered">
+		<cache-container name="clustered" default-cache="default" statistics="true">
 			<transport executor="infinispan-transport" lock-timeout="60000"/>
 			...
 			<distributed-cache name="labCache" mode="SYNC" virtual-nodes="1" owners="2" remote-timeout="30000" start="EAGER">
