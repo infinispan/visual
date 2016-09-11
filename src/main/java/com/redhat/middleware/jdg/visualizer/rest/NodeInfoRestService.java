@@ -26,11 +26,11 @@ package com.redhat.middleware.jdg.visualizer.rest;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -38,7 +38,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import org.infinispan.api.BasicCache;
+import org.infinispan.client.hotrod.RemoteCache;
 
 import com.redhat.middleware.jdg.visualizer.cdi.Resources;
 import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManager;
@@ -64,7 +64,9 @@ public class NodeInfoRestService {
 	@GET
 	@Path("/{cacheName}")
 	@Produces("application/json")
-	public Collection<NodeInfo> getAllNodeInfo(@PathParam(value="cacheName") String cacheName, @DefaultValue("false") @QueryParam("clear") Boolean clear) throws Exception {
+	public <K,V> Collection<NodeInfo> getAllNodeInfo(@PathParam(value="cacheName") String cacheName, 
+			@DefaultValue("false") @QueryParam("clear") Boolean clear,
+			@DefaultValue("false") @QueryParam("refresh") Boolean refresh) throws Exception {
 		if (cacheName == null || "".equals(cacheName)) {
 			cacheName = "default(dist_sync)";
 		}
@@ -76,13 +78,22 @@ public class NodeInfoRestService {
 			pollerManagers.put(cacheName, manager);
 		}
 		
-		if (clear) {
-			String[] parts = cacheName.split("\\(");
-			if (parts.length > 0) {
-				String name = parts[0];
-				BasicCache cache = cacheManager.getCache(name);
-				if (cache != null) {
+		String[] parts = cacheName.split("\\(");
+		if (parts.length > 0) {
+			String name = parts[0];
+			RemoteCache<K,V> cache =  cacheManager.getCache(name);
+			if(cache !=null) {
+				
+				if(clear) { 
 					cache.clearAsync();
+				} 
+				
+				if (refresh) {
+					Set<K> keys = cache.keySet();
+					for(K key : keys) {
+						V value = cache.get(key);
+						cache.put(key,value);
+					}
 				}
 			}
 		}

@@ -47,6 +47,14 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 				});
 			}
 		});
+		$("#refresh").click(function() {
+			var cacheName = jQuery("#cacheName").val();
+			if (cacheName) {
+				jQuery.getJSON('rest/nodes/'+ cacheName, {refresh: true}, function(data) {
+					
+				});
+			}
+		});		
 		updateNames();
 	}
 
@@ -112,6 +120,7 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 	<div id="controls">
 		<select id="cacheName" name="cacheName"></select>
 		<button id="clear">Clear Cache</button>
+		<button id="refresh">Refresh Cache</button>
 	</div>
 	<div id="stage"></div>
 

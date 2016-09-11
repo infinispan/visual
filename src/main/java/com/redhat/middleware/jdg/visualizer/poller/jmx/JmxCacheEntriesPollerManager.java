@@ -34,6 +34,7 @@ import com.redhat.middleware.jdg.visualizer.rest.NodeInfo;
  */
 public abstract class JmxCacheEntriesPollerManager extends JmxPollerManager<NodeInfo, Integer, JmxCacheEntriesPoller> {
 	private volatile int colorIndex = 0;
+	private boolean multiColor = false;
 	
 	private String cacheName;
 	
@@ -44,7 +45,10 @@ public abstract class JmxCacheEntriesPollerManager extends JmxPollerManager<Node
 	
 	@Override
 	protected NodeInfo createNewInfo(String id, SocketAddress addr) {
-		return new NodeInfo(id, addr.toString(), colorIndex++);
+		if(multiColor)
+			return new NodeInfo(id, addr.toString(), colorIndex++);
+		else 
+			return new NodeInfo(id, addr.toString(), colorIndex);	
 	}
 	
 	public String getCacheName() {
@@ -53,5 +57,12 @@ public abstract class JmxCacheEntriesPollerManager extends JmxPollerManager<Node
 
 	public void setCacheName(String cacheName) {
 		this.cacheName = cacheName;
+	}
+	
+	public void setMultiColor(Boolean multiColor, Integer colorIndex){
+		this.multiColor = multiColor;
+		if(this.multiColor != true) {
+			this.colorIndex = colorIndex;
+		}
 	}
 }
