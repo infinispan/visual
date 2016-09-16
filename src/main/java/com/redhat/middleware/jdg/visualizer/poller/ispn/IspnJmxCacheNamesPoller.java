@@ -45,7 +45,7 @@ public class IspnJmxCacheNamesPoller extends JmxPoller<String[]> {
 	
 	@Override
 	protected String[] doPoll() throws Exception {
-		Set<ObjectName> objectNames = getConnection().queryNames(new ObjectName("org.infinispan:type=Cache,name=*,manager=\"clustered\",component=Cache"), null);
+		Set<ObjectName> objectNames = getConnection().queryNames(new ObjectName("org.datagrid-infinispan:type=Cache,name=*,manager=\"clustered\",component=Cache"), null);
 		if (objectNames == null) return null;
 		
 		String [] names = new String[objectNames.size()];

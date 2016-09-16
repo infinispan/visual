@@ -8,10 +8,8 @@ import java.util.Map;
 import javax.management.remote.JMXServiceURL;
 
 import com.redhat.middleware.jdg.visualizer.internal.VisualizerRemoteCacheManager;
-import com.redhat.middleware.jdg.visualizer.poller.CacheNamesPollerThread;
 import com.redhat.middleware.jdg.visualizer.poller.jmx.JmxCacheNamesPollerManager;
 import com.redhat.middleware.jdg.visualizer.poller.jmx.JmxPoller;
-import com.redhat.middleware.jdg.visualizer.rest.CacheNameInfo;
 
 /*
 * JBoss, Home of Professional Open Source
@@ -47,7 +45,7 @@ public class JdgJmxCacheNamesPollerManager extends JmxCacheNamesPollerManager {
 		InetSocketAddress isa = (InetSocketAddress) address;
 		String host = isa.getAddress().getHostAddress();
 		int port = isa.getPort() - getJmxHotrodPortOffset();
-		return new JMXServiceURL("service:jmx:remoting-jmx://" + host + ":" + port);
+		return new JMXServiceURL("service:jmx:http-remoting-jmx://" + host + ":" + port);
 	}
 
 	@Override

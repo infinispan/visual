@@ -58,8 +58,10 @@ public class Resources {
    private String refreshRate = System.getProperty("jdg.visualizer.refreshRate", "2000");
 	private String jmxUsername = System.getProperty("jdg.visualizer.jmxUser", "admin");
 	private String jmxPassword = System.getProperty("jdg.visualizer.jmxPass", "jboss");
-	private int jmxHotrodPortOffset = Integer.parseInt(System.getProperty("jdg.visualizer.jmxPortOffset", "1223"));
 	private String nodeColorAsString = System.getProperty("jdg.visualizer.nodeColor");
+	//JMX port offset is calculated by the formula: HotRod port - jmxHotrodPortOffset
+	//e.g. 11222 - 1232 = 9990
+	private int jmxHotrodPortOffset = Integer.parseInt(System.getProperty("jdg.visualizer.jmxPortOffset", "1232"));
 	
 	@Produces
 	public Logger produceLog(InjectionPoint injectionPoint) {

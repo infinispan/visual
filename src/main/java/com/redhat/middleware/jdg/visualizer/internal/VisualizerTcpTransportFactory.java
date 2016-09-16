@@ -27,14 +27,14 @@ import java.net.SocketAddress;
 import java.util.Collection;
 
 /**
- * 
+ *
  * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
  *
  */
 public class VisualizerTcpTransportFactory extends
 		org.infinispan.client.hotrod.impl.transport.tcp.TcpTransportFactory {
-	
-	private ServersRegistry registry;
+
+	private volatile ServersRegistry registry;
 
 	public ServersRegistry getRegistry() {
 		return registry;
@@ -45,12 +45,13 @@ public class VisualizerTcpTransportFactory extends
 	}
 
 	@Override
-	public void updateServers(Collection<SocketAddress> newServers, byte[] cacheName) {
-        super.updateServers(newServers,cacheName);
-        updateServerRegistry();
+	public void updateServers(Collection<SocketAddress> newServers, byte[] cacheName, boolean quiet) {
+		super.updateServers(newServers, cacheName, quiet);
+		updateServerRegistry();
 	}
-	
+
 	protected void updateServerRegistry() {
-		registry.updateServers(getServers());
+		if(registry != null)
+			registry.updateServers(getServers());
 	}
 }

@@ -47,7 +47,7 @@ public class IspnJmxCacheNamesPollerManager extends JmxCacheNamesPollerManager {
 		InetSocketAddress isa = (InetSocketAddress) address;		
 		String host = isa.getAddress().getHostAddress();
 		int port = isa.getPort() - getJmxHotrodPortOffset();				
-		return new JMXServiceURL("service:jmx:remoting-jmx://" + host + ":" + port);
+		return new JMXServiceURL("service:jmx:http-remoting-jmx://" + host + ":" + port);
 	}
 
 	@Override

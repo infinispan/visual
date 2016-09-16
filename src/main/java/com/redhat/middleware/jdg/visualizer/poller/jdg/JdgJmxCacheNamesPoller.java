@@ -47,7 +47,7 @@ public class JdgJmxCacheNamesPoller extends JmxPoller<String[]> {
 	
 	@Override
 	protected String[] doPoll() throws Exception {
-		Set<ObjectName> objectNames = getConnection().queryNames(new ObjectName("jboss.infinispan:type=Cache,name=*,manager=\"clustered\",component=Cache"), null);
+		Set<ObjectName> objectNames = getConnection().queryNames(new ObjectName("jboss.datagrid-infinispan:type=Cache,name=*,manager=\"clustered\",component=Cache"), null);
 		if (objectNames == null) return null;
 		
 		List<String> names = new LinkedList<String>();

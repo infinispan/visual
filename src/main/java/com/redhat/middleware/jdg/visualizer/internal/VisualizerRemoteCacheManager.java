@@ -29,9 +29,6 @@ import java.util.Properties;
 import javax.enterprise.inject.Alternative;
 
 import org.infinispan.client.hotrod.RemoteCacheManager;
-import org.infinispan.client.hotrod.impl.ConfigurationProperties;
-
-import com.redhat.middleware.jdg.visualizer.poller.jdg.JdgJmxCacheNamesPollerManager;
 
 /**
  * 
@@ -59,7 +56,7 @@ public class VisualizerRemoteCacheManager extends RemoteCacheManager {
 		super.start();
 		
 		this.registry = new ServersRegistry();
-		
+
 		VisualizerTcpTransportFactory factory = getTransportFactoryViaReflection();
 		if (factory != null) {
 			factory.setRegistry(registry);

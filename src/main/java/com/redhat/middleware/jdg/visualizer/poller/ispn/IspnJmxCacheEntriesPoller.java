@@ -45,7 +45,7 @@ public class IspnJmxCacheEntriesPoller extends JmxCacheEntriesPoller {
 
 	@Override
 	protected ObjectName generateObjectName() throws Exception {
-		return new ObjectName("org.infinispan:type=Cache,name=\"" + getCacheName() + "\",manager=\"DefaultCacheManager\",component=Statistics");
+		return new ObjectName("org.datagrid-infinispan:type=Cache,name=\"" + getCacheName() + "\",manager=\"DefaultCacheManager\",component=Statistics");
 	}
 
 }

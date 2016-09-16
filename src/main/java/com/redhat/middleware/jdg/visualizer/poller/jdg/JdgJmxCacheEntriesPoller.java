@@ -43,7 +43,7 @@ public class JdgJmxCacheEntriesPoller extends JmxCacheEntriesPoller {
 
 	@Override
 	protected ObjectName generateObjectName() throws Exception {
-		return new ObjectName("jboss.infinispan:type=Cache,name=\"" + getCacheName() +"\",manager=\"clustered\",component=Statistics");
+		return new ObjectName("jboss.datagrid-infinispan:type=Cache,name=\"" + getCacheName() +"\",manager=\"clustered\",component=Statistics");
 	}
 
 }
