@@ -25,15 +25,15 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 
 <html>
 <head>
-<title>JDG Visualizer</title>
-<meta http-equiv="Content-Type"
-	content="text/html; charset=windows-1252">
-<link rel="stylesheet" type="text/css" href="viz.css" media="screen" />
-<script src="jquery-1.5.1.min.js" type="text/Javascript"></script>
-<script src="viz-dot.js" type="text/Javascript"></script>
-<script src="viz-isnode.js" type="text/Javascript"></script>
-<script src="viz.js" type="text/Javascript"></script>
-<script type="text/Javascript">
+    <title>JDG Visualizer</title>
+    <meta http-equiv="Content-Type"
+          content="text/html; charset=windows-1252">
+    <link rel="stylesheet" type="text/css" href="viz.css" media="screen"/>
+    <script src="jquery-1.5.1.min.js" type="text/Javascript"></script>
+    <script src="viz-dot.js" type="text/Javascript"></script>
+    <script src="viz-isnode.js" type="text/Javascript"></script>
+    <script src="viz.js" type="text/Javascript"></script>
+    <script type="text/Javascript">
 	var addrs = Array();
 
 	var infoUpdateTimeout = 500;
@@ -114,22 +114,24 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 			setTimeout('updateAddrs()', infoUpdateTimeout);
 		});
 	}
-</script>
+
+    </script>
 </head>
 <body>
-	<div id="controls">
-		<select id="cacheName" name="cacheName"></select>
-		<button id="clear">Clear Cache</button>
-		<button id="refresh">Refresh Cache</button>
-	</div>
-	<div id="stage"></div>
+<div id="controls">
+    <select id="cacheName" name="cacheName"></select>
+    <button id="clear">Clear Cache</button>
+    <button id="refresh">Refresh Cache</button>
+</div>
+<div id="stage"></div>
 
-	<script type="text/javascript">
+<script type="text/javascript">
 		$(function() {
 			initViz();
 			startMainLoop();
 		});
-	</script>
+
+</script>
 
 </body>
 </html>

@@ -21,50 +21,30 @@
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
 
-/* 
-    Document   : viz.css
-    Created on : Mar 29, 2011, 3:22:43 PM
-    Author     : Andrew Sacamano<andrew.sacamano@amentra.com>
-    Description:
-    A stylesheet for the Infinispan visualizer.
-*/
+package org.infinispan.visualizer.poller;
 
-body {
-    color: #fff;
-    background: #323232 url(grey_tile.png) repeat-x;
+import java.util.Hashtable;
+
+import javax.naming.Context;
+import javax.naming.NamingException;
+import javax.naming.spi.InitialContextFactory;
+
+import com.sun.jndi.url.rmi.rmiURLContext;
+
+/**
+ * There may be further issues when running inside JBoss AS 7. See {@link https://issues.jboss.org/browse/AS7-2138}
+ * <p>
+ * This hasn't been tested.
+ *
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ */
+public class RMIContextFactory implements InitialContextFactory {
+
+   @Override
+   public Context getInitialContext(Hashtable<?, ?> environment)
+         throws NamingException {
+
+      return new rmiURLContext(environment);
+   }
+
 }
-
-#stage {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    margin: 0 auto;
-    padding: 0;
-    z-index: -1;
-}
-
-.node {
-    width: 150px;
-    height: 150px;
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-}
-
-.nodetitle {
-    /* display: none; */
-    z-index: -1;
-}
-
-.nodecanvas {
-    width: 150px;
-    height: 150px;
-}
-
-#controls {
-    float: left;
-    z-index: 100;
-}
-

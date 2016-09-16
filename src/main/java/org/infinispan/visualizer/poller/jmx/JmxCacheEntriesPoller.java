@@ -21,50 +21,34 @@
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
 
-/* 
-    Document   : viz.css
-    Created on : Mar 29, 2011, 3:22:43 PM
-    Author     : Andrew Sacamano<andrew.sacamano@amentra.com>
-    Description:
-    A stylesheet for the Infinispan visualizer.
-*/
+package org.infinispan.visualizer.poller.jmx;
 
-body {
-    color: #fff;
-    background: #323232 url(grey_tile.png) repeat-x;
+import java.util.Map;
+
+import javax.management.ObjectName;
+import javax.management.remote.JMXServiceURL;
+
+/**
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ */
+public abstract class JmxCacheEntriesPoller extends JmxPoller<Integer> {
+   private static final String ATTRIBUTE = "numberOfEntries";
+
+   private final String cacheName;
+
+   public JmxCacheEntriesPoller(JMXServiceURL jmxUrl, Map<String, Object> jmxEnv, String cacheName) {
+      super(jmxUrl, jmxEnv);
+      this.cacheName = cacheName;
+   }
+
+   abstract protected ObjectName generateObjectName() throws Exception;
+
+   @Override
+   public Integer doPoll() throws Exception {
+      return Integer.valueOf(getConnection().getAttribute(generateObjectName(), ATTRIBUTE).toString());
+   }
+
+   public String getCacheName() {
+      return cacheName;
+   }
 }
-
-#stage {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    margin: 0 auto;
-    padding: 0;
-    z-index: -1;
-}
-
-.node {
-    width: 150px;
-    height: 150px;
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-}
-
-.nodetitle {
-    /* display: none; */
-    z-index: -1;
-}
-
-.nodecanvas {
-    width: 150px;
-    height: 150px;
-}
-
-#controls {
-    float: left;
-    z-index: 100;
-}
-

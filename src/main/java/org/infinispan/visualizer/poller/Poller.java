@@ -20,51 +20,18 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+package org.infinispan.visualizer.poller;
 
-/* 
-    Document   : viz.css
-    Created on : Mar 29, 2011, 3:22:43 PM
-    Author     : Andrew Sacamano<andrew.sacamano@amentra.com>
-    Description:
-    A stylesheet for the Infinispan visualizer.
-*/
+/**
+ * This is a sync poller interface where poll() will always return a sampled data when invoked.
+ *
+ * @param <T>
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ */
+public interface Poller<T> {
+   void init();
 
-body {
-    color: #fff;
-    background: #323232 url(grey_tile.png) repeat-x;
+   T poll();
+
+   void destroy();
 }
-
-#stage {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    margin: 0 auto;
-    padding: 0;
-    z-index: -1;
-}
-
-.node {
-    width: 150px;
-    height: 150px;
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-}
-
-.nodetitle {
-    /* display: none; */
-    z-index: -1;
-}
-
-.nodecanvas {
-    width: 150px;
-    height: 150px;
-}
-
-#controls {
-    float: left;
-    z-index: 100;
-}
-

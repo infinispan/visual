@@ -21,50 +21,35 @@
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
 
-/* 
-    Document   : viz.css
-    Created on : Mar 29, 2011, 3:22:43 PM
-    Author     : Andrew Sacamano<andrew.sacamano@amentra.com>
-    Description:
-    A stylesheet for the Infinispan visualizer.
-*/
+package org.infinispan.visualizer.internal;
 
-body {
-    color: #fff;
-    background: #323232 url(grey_tile.png) repeat-x;
+import java.net.SocketAddress;
+import java.util.Collection;
+
+/**
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ */
+public class VisualizerTcpTransportFactory extends
+      org.infinispan.client.hotrod.impl.transport.tcp.TcpTransportFactory {
+
+   private volatile ServersRegistry registry;
+
+   public ServersRegistry getRegistry() {
+      return registry;
+   }
+
+   public void setRegistry(ServersRegistry registry) {
+      this.registry = registry;
+   }
+
+   @Override
+   public void updateServers(Collection<SocketAddress> newServers, byte[] cacheName, boolean quiet) {
+      super.updateServers(newServers, cacheName, quiet);
+      updateServerRegistry();
+   }
+
+   protected void updateServerRegistry() {
+      if (registry != null)
+         registry.updateServers(getServers());
+   }
 }
-
-#stage {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    margin: 0 auto;
-    padding: 0;
-    z-index: -1;
-}
-
-.node {
-    width: 150px;
-    height: 150px;
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-}
-
-.nodetitle {
-    /* display: none; */
-    z-index: -1;
-}
-
-.nodecanvas {
-    width: 150px;
-    height: 150px;
-}
-
-#controls {
-    float: left;
-    z-index: 100;
-}
-

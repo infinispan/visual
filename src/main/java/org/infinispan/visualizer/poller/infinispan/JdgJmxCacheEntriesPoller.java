@@ -21,50 +21,27 @@
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
 
-/* 
-    Document   : viz.css
-    Created on : Mar 29, 2011, 3:22:43 PM
-    Author     : Andrew Sacamano<andrew.sacamano@amentra.com>
-    Description:
-    A stylesheet for the Infinispan visualizer.
-*/
+package org.infinispan.visualizer.poller.infinispan;
 
-body {
-    color: #fff;
-    background: #323232 url(grey_tile.png) repeat-x;
+import java.util.Map;
+
+import javax.management.ObjectName;
+import javax.management.remote.JMXServiceURL;
+
+import org.infinispan.visualizer.poller.jmx.JmxCacheEntriesPoller;
+
+/**
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ */
+public class JdgJmxCacheEntriesPoller extends JmxCacheEntriesPoller {
+   public JdgJmxCacheEntriesPoller(JMXServiceURL jmxUrl,
+                                   Map<String, Object> jmxEnv, String cacheName) {
+      super(jmxUrl, jmxEnv, cacheName);
+   }
+
+   @Override
+   protected ObjectName generateObjectName() throws Exception {
+      return new ObjectName("jboss.datagrid-infinispan:type=Cache,name=\"" + getCacheName() + "\",manager=\"clustered\",component=Statistics");
+   }
+
 }
-
-#stage {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    margin: 0 auto;
-    padding: 0;
-    z-index: -1;
-}
-
-.node {
-    width: 150px;
-    height: 150px;
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-}
-
-.nodetitle {
-    /* display: none; */
-    z-index: -1;
-}
-
-.nodecanvas {
-    width: 150px;
-    height: 150px;
-}
-
-#controls {
-    float: left;
-    z-index: 100;
-}
-

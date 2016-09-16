@@ -21,50 +21,41 @@
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
 
-/* 
-    Document   : viz.css
-    Created on : Mar 29, 2011, 3:22:43 PM
-    Author     : Andrew Sacamano<andrew.sacamano@amentra.com>
-    Description:
-    A stylesheet for the Infinispan visualizer.
-*/
+package org.infinispan.visualizer.rest;
 
-body {
-    color: #fff;
-    background: #323232 url(grey_tile.png) repeat-x;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+
+import org.infinispan.visualizer.poller.PollerManager;
+
+/**
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ */
+@Path("/names")
+@ApplicationScoped
+public class CacheNameInfoRestService {
+   @Inject
+   private PollerManager<CacheNameInfo> manager;
+
+   @GET
+   @Produces("application/json")
+   public Set<String> getAllNodeInfo() throws Exception {
+      Set<String> names = new HashSet<>();
+      Collection<CacheNameInfo> infos = manager.getAllInfos();
+      for (CacheNameInfo info : infos) {
+         if (info.getNames() != null) {
+            names.addAll(Arrays.asList(info.getNames()));
+         }
+      }
+
+      return names;
+   }
 }
-
-#stage {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    margin: 0 auto;
-    padding: 0;
-    z-index: -1;
-}
-
-.node {
-    width: 150px;
-    height: 150px;
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-}
-
-.nodetitle {
-    /* display: none; */
-    z-index: -1;
-}
-
-.nodecanvas {
-    width: 150px;
-    height: 150px;
-}
-
-#controls {
-    float: left;
-    z-index: 100;
-}
-
