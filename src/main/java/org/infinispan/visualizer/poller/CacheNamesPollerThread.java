@@ -20,51 +20,25 @@
 * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
+package org.infinispan.visualizer.poller;
 
-/* 
-    Document   : viz.css
-    Created on : Mar 29, 2011, 3:22:43 PM
-    Author     : Andrew Sacamano<andrew.sacamano@amentra.com>
-    Description:
-    A stylesheet for the Infinispan visualizer.
-*/
+import org.infinispan.visualizer.poller.jmx.JmxPoller;
+import org.infinispan.visualizer.rest.CacheNameInfo;
 
-body {
-    color: #fff;
-    background: #323232 url(grey_tile.png) repeat-x;
+/**
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ */
+public class CacheNamesPollerThread extends PollerThread<String[]> {
+   private final CacheNameInfo nameInfo;
+
+   public CacheNamesPollerThread(JmxPoller<String[]> jmxPoller, CacheNameInfo nameInfo) {
+      super(jmxPoller);
+      this.nameInfo = nameInfo;
+   }
+
+   @Override
+   protected void doRun() {
+      nameInfo.setNames(getPoller().poll());
+   }
+
 }
-
-#stage {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    margin: 0 auto;
-    padding: 0;
-    z-index: -1;
-}
-
-.node {
-    width: 150px;
-    height: 150px;
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-}
-
-.nodetitle {
-    /* display: none; */
-    z-index: -1;
-}
-
-.nodecanvas {
-    width: 150px;
-    height: 150px;
-}
-
-#controls {
-    float: left;
-    z-index: 100;
-}
-

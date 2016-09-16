@@ -21,50 +21,32 @@
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
 
-/* 
-    Document   : viz.css
-    Created on : Mar 29, 2011, 3:22:43 PM
-    Author     : Andrew Sacamano<andrew.sacamano@amentra.com>
-    Description:
-    A stylesheet for the Infinispan visualizer.
-*/
+package org.infinispan.visualizer.poller;
 
-body {
-    color: #fff;
-    background: #323232 url(grey_tile.png) repeat-x;
+
+import org.infinispan.visualizer.internal.VisualizerRemoteCacheManager;
+
+/**
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ */
+public abstract class RemoteCachePollerManager<T> extends PollerManager<T> {
+   private VisualizerRemoteCacheManager cacheManager;
+
+   public RemoteCachePollerManager(VisualizerRemoteCacheManager cacheManager) {
+      this.cacheManager = cacheManager;
+   }
+
+   @Override
+   public void updateClusterList() {
+      updateClusterList(cacheManager.getRegistry().getServers());
+   }
+
+   public VisualizerRemoteCacheManager getCacheManager() {
+      return cacheManager;
+   }
+
+   public void setCacheManager(VisualizerRemoteCacheManager cacheManager) {
+      this.cacheManager = cacheManager;
+   }
+
 }
-
-#stage {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    margin: 0 auto;
-    padding: 0;
-    z-index: -1;
-}
-
-.node {
-    width: 150px;
-    height: 150px;
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-}
-
-.nodetitle {
-    /* display: none; */
-    z-index: -1;
-}
-
-.nodecanvas {
-    width: 150px;
-    height: 150px;
-}
-
-#controls {
-    float: left;
-    z-index: 100;
-}
-

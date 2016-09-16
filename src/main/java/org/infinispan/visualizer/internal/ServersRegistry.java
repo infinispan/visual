@@ -21,50 +21,35 @@
 * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 */
 
-/* 
-    Document   : viz.css
-    Created on : Mar 29, 2011, 3:22:43 PM
-    Author     : Andrew Sacamano<andrew.sacamano@amentra.com>
-    Description:
-    A stylesheet for the Infinispan visualizer.
-*/
+package org.infinispan.visualizer.internal;
 
-body {
-    color: #fff;
-    background: #323232 url(grey_tile.png) repeat-x;
+import java.net.SocketAddress;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+
+/**
+ * This class maintains a list of servers available in the JDG cluster.  It acts almost like a listener, where a
+ * RemoteCacheManager would need to call updateServers(...) with the latest list of the server.
+ * <p>
+ * RemoteCacheManager does not do this out of the box, hence a custom implementation is used, see
+ * VisualizerRemoteCacheManager.
+ *
+ * @author <a href="mailto:rtsang@redhat.com">Ray Tsang</a>
+ */
+public class ServersRegistry {
+   private Collection<SocketAddress> servers;
+
+   public void updateServers(Collection<SocketAddress> updatedServers) {
+      servers = new HashSet<>(updatedServers);
+   }
+
+   public Collection<SocketAddress> getServers() {
+      if (servers == null) return Collections.emptySet();
+      return servers;
+   }
+
+   public void setServers(Collection<SocketAddress> servers) {
+      this.servers = servers;
+   }
 }
-
-#stage {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    margin: 0 auto;
-    padding: 0;
-    z-index: -1;
-}
-
-.node {
-    width: 150px;
-    height: 150px;
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-}
-
-.nodetitle {
-    /* display: none; */
-    z-index: -1;
-}
-
-.nodecanvas {
-    width: 150px;
-    height: 150px;
-}
-
-#controls {
-    float: left;
-    z-index: 100;
-}
-
