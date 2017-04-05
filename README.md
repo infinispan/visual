@@ -43,7 +43,9 @@ This demo application uses a single instance of Wildfly server, and a cluster of
 ### 1.2 Add Management User to JBoss Data Grid
 
 Use the example shown below to add an user
-    $ISPN_HOME/bin$ ./add-user.sh -a -u admin -p adminPass9! -r ManagementRealm
+
+    cd $ISPN_HOME/bin
+     ./add-user.sh -u admin -p p455w0rd
 
 Follow instructions to add a user with your username/password of your choice.  _ALL_ nodes should have the exact same login credentials in order for this visualizer to run correctly.
 
