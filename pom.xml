@@ -39,7 +39,7 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
         <infinispan.version>8.2.4.Final</infinispan.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <jee7.version>7.0</jee7.version>
     </properties>
 
